@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'MiSans VF';
+  src: url('misansvf.ttf') format('truetype'); /* Safari, Android, iOS */
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}

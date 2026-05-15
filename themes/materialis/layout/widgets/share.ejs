@@ -1,0 +1,29 @@
+<!-- 复制URL图标组件 -->
+<mdui-button-icon class="copy-url-btn">
+  <mdui-icon>link</mdui-icon>
+</mdui-button-icon>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const copyUrlBtn = document.querySelector('.copy-url-btn');
+  
+  copyUrlBtn.addEventListener('click', async function() {
+    try {
+      const currentUrl = window.location.href;
+      await navigator.clipboard.writeText(currentUrl);
+      
+      mdui.snackbar({
+        message: "<%= __('share.copy_success') %>",
+        placement: 'bottom',
+        timeout: 2000
+      });
+    } catch (err) {
+      mdui.snackbar({
+        message: "<%= __('share.copy_fail') %>",
+        placement: 'bottom',
+        timeout: 2000
+      });
+    }
+  });
+});
+</script>

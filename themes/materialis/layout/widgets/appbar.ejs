@@ -1,0 +1,31 @@
+<mdui-top-app-bar variant="center-aligned" scroll-behavior="elevate" class="top-app-bar">
+    <mdui-button-icon class="appbar-menu-button">
+        <mdui-icon name="menu"></mdui-icon>
+    </mdui-button-icon>
+    <mdui-top-app-bar-title onclick="window.location.href='<%= url_for('/') %>'" style="cursor: pointer;">
+        <%= config.title %>
+    </mdui-top-app-bar-title>
+        <mdui-dropdown>
+            <div slot="trigger">
+                <mdui-tooltip>
+                    <mdui-button-icon>
+                        <mdui-icon name="auto_mode" class="appbar-display-mode-icon"></mdui-icon>
+                    </mdui-button-icon>
+                </mdui-tooltip>
+            </div>
+            <mdui-menu selects="single" value="auto" class="appbar-display-mode">
+                <mdui-menu-item value="light"><%= __('appbar.light_mode') %></mdui-menu-item>
+                <mdui-menu-item value="dark"><%= __('appbar.dark_mode') %></mdui-menu-item>
+                <mdui-divider></mdui-divider>
+                <mdui-menu-item value="auto"><%= __('appbar.auto_mode') %></mdui-menu-item>
+            </mdui-menu>
+        </mdui-dropdown>
+
+        <%- partial('widgets/search.ejs') %>
+        <%- partial('widgets/color.ejs') %>
+        <% if (page && page.layout === 'post') { %>
+            <%- partial('widgets/nav.ejs') %>
+            <%- include('share.ejs') %>
+        <% } %>
+
+</mdui-top-app-bar>

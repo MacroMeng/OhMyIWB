@@ -1,0 +1,391 @@
+<style>
+.post-card-title {
+    background-color: rgb(var(--mdui-color-surface-container-low));
+}
+
+.post-card-title-text {
+    color: rgb(var(--mdui-color-on-surface-container-low));
+}
+
+.article-title {
+    color: rgb(var(--mdui-color-primary));
+}
+
+.article-card {
+    background-color: rgb(var(--mdui-color-surface-container-low));
+}
+
+.banner-title {
+    background-color: rgb(var(--mdui-color-primary));
+}
+
+.banner-title-text1 {
+    color: rgb(var(--mdui-color-surface-container-low));
+}
+
+.banner-title-text2 {
+    color: rgb(var(--mdui-color-surface-container-low));
+}
+
+.post-card-wide {
+    background-color: rgb(var(--mdui-color-surface-container-low));
+}
+
+.article-content {
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.archives-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.archives-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.archives-year-card {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.archives-year-header {
+    padding: 24px 32px;
+    background: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.archives-year-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.archives-year-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.archives-post-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.archives-post-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
+}
+
+.archives-post-item:last-child {
+    border-bottom: none;
+}
+
+.archives-post-item:hover {
+    background-color: rgb(var(--mdui-color-surface-container-highest));
+    transform: translateX(4px);
+}
+
+.archives-post-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.archives-post-title {
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.archives-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    opacity: 0.7;
+    line-height: 1.4;
+    flex-wrap: wrap;
+}
+
+.archives-post-categories {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.archives-post-category {
+    background: rgb(var(--mdui-color-surface-container-highest));
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.archives-post-arrow {
+    flex-shrink: 0;
+    color: rgb(var(--mdui-color-outline));
+    transition: transform 0.2s ease;
+}
+
+.archives-post-item:hover .archives-post-arrow {
+    transform: translateX(4px);
+}
+
+.archives-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.archives-empty-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.archives-empty-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    color: rgb(var(--mdui-color-primary-container));
+}
+
+.archives-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .archives-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .archives-header {
+        padding: 32px 24px;
+    }
+    
+    .archives-year-header {
+        padding: 20px 24px;
+    }
+    
+    .archives-post-item {
+        padding: 18px 24px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    .archives-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .archives-header {
+        padding: 24px 20px;
+    }
+    
+    .archives-year-header {
+        padding: 16px 20px;
+    }
+    
+    .archives-year-content {
+        gap: 16px;
+    }
+    
+    .archives-post-item {
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    
+    .archives-post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .archives-post-categories {
+        gap: 6px;
+    }
+    
+    .archives-empty-card {
+        padding: 40px 24px;
+    }
+    
+    .archives-empty-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .archives-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .archives-header {
+        padding: 20px 16px;
+    }
+    
+    .archives-year-header {
+        padding: 16px;
+    }
+    
+    .archives-year-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        text-align: left;
+    }
+    
+    .archives-year-info {
+        align-items: flex-start;
+    }
+    
+    .archives-post-item {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+    
+    .archives-post-title {
+        font-size: 15px;
+    }
+    
+    .archives-post-meta {
+        font-size: 13px;
+    }
+}
+
+
+</style>
+
+<div class="archives-page">
+    
+    <!-- 页面标题 -->
+    <mdui-card class="mdui-primary archives-header">
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('diary.title') %></mdui-typography>
+        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            <%= __('diary.total') %> <mdui-badge style="margin: 0 8px;"><%= site.posts.length %></mdui-badge> <%= __('diary.articles') %>
+        </mdui-typography>
+    </mdui-card>
+
+    <!-- 按年份分组 -->
+    <% 
+        const postsByYear = {};
+        site.posts.sort('-date').each(function(post) {
+            const year = post.date.year();
+            if (!postsByYear[year]) {
+                postsByYear[year] = [];
+            }
+            postsByYear[year].push(post);
+        });
+    %>
+    
+    <% Object.keys(postsByYear).sort().reverse().forEach(function(year) { %>
+        <!-- 年份卡片 -->
+        <mdui-card class="mdui-primary archives-year-card">
+            <!-- 年份标题 -->
+            <div class="archives-year-header">
+                <div class="archives-year-content">
+                    <mdui-avatar variant="rounded" size="50px" class="archives-year-avatar">
+                        <mdui-icon>calendar_today</mdui-icon>
+                    </mdui-avatar>
+                    <div class="archives-year-info">
+                        <mdui-typography variant="h5" style="font-weight: 500;">
+                            <%= year %> <%= __('diary.year') %>
+                        </mdui-typography>
+                        <mdui-typography variant="body" style="opacity: 0.8;">
+                            <%= postsByYear[year].length %> <%= __('diary.articles') %>
+                        </mdui-typography>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 文章列表 -->
+            <div class="archives-post-list">
+                <% postsByYear[year].forEach(function(post, index) { %>
+                    <a href="<%= url_for(post.path) %>" class="archives-post-item">
+                        <mdui-icon class="archives-post-icon">article</mdui-icon>
+                        
+                        <div class="archives-post-content">
+                            <div class="archives-post-title">
+                                <%= post.title %>
+                            </div>
+                            <div class="archives-post-meta">
+                                <span><%= post.date.format('MM-DD') %></span>
+                                <% if (post.categories && post.categories.length) { %>
+                                    <div class="archives-post-categories">
+                                        <span>·</span>
+                                        <% post.categories.forEach(function(cat, catIndex) { %>
+                                            <span class="archives-post-category"><%= cat.name %></span>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <mdui-icon class="archives-post-arrow">chevron_right</mdui-icon>
+                    </a>
+                <% }); %>
+            </div>
+        </mdui-card>
+    <% }); %>
+
+    <!-- 空状态 -->
+    <% if (!site.posts || site.posts.length === 0) { %>
+        <div class="archives-empty-state">
+            <mdui-card class="mdui-primary archives-empty-card">
+                <mdui-icon class="archives-empty-icon">article</mdui-icon>
+                <div class="archives-empty-content">
+                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                        <%= __('diary.no_articles') %>
+                    </mdui-typography>
+                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                        <%= __('diary.no_articles_desc') %>
+                    </mdui-typography>
+                </div>
+            </mdui-card>
+        </div>
+    <% } %>
+
+</div>

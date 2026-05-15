@@ -1,0 +1,40 @@
+<mdui-navigation-drawer class="sidebar-content" close-on-overlay-click no-animation>
+    <!-- 用户信息卡片 -->
+    <% if (theme.sidebar && (theme.sidebar.avatar || theme.sidebar.name || theme.sidebar.slogen)) { %>
+    <div class="sidebar-user-card">
+        <% if (theme.sidebar.avatar) { %>
+            <mdui-avatar class="sidebar-user-avatar" src="<%= theme.sidebar.avatar %>"></mdui-avatar>
+        <% } %>
+        <% if (theme.sidebar.name) { %>
+            <div class="sidebar-user-name"><%= theme.sidebar.name %></div>
+        <% } %>
+        <% if (theme.sidebar.slogen) { %>
+            <div class="sidebar-user-slogen"><%= theme.sidebar.slogen %></div>
+        <% } %>
+        </div>
+    <% } %>
+    
+    <!-- 导航菜单 -->
+    <mdui-list class="nav-list">
+        <% if (theme.nav && theme.nav.length > 0) { %>
+            <% theme.nav.forEach(function(item) { %>
+                <mdui-list-item 
+                    class="nav-item"
+                    href="<%= url_for(item.url) %>"
+                    rounded
+                    <% if (page.path.startsWith(item.url.replace(/^\//, '')) || (item.url === '/' && page.path === 'index.html')) { %>
+                    active
+                    <% } else { %>
+                    variant="filled"
+                    <% } %>
+                >
+                    <mdui-icon slot="icon" name="<%= item.icon %>"></mdui-icon>
+                    <%= item.name %>
+                </mdui-list-item>
+            <% }) %>
+        <% } %>
+    </mdui-list>
+
+
+
+</mdui-navigation-drawer>

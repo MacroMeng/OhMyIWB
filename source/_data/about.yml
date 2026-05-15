@@ -1,0 +1,22 @@
+name: "OhMyIWB"
+title: "不定期分享 IWB 小知识、软件、更新等内容"
+description: "你好👋这里是OMI"
+
+skills:
+  - "Updates"
+  - "Skills"
+  - "Softwares"
+  - "More"
+
+contacts:
+  - name: "STCN论坛帖子"
+    icon: "chat"
+    link: "https://forum.smart-teach.cn/d/1783"
+  - name: "联系我"
+    icon: "email"
+    link: "mailto:meng-yc@outook.com"
+
+projects:
+  - name: "1145141919810"
+    description: "我是滚木"
+    link: "about:blank"

@@ -1,0 +1,146 @@
+
+<%
+const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks : [];
+%>
+
+<style>
+.talk-card {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container-low));
+    color: rgb(var(--mdui-color-on-surface));
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.talk-card-content {
+    padding: 24px;
+}
+
+.talk-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.talk-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgb(var(--mdui-color-primary-container));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.talk-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.talk-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.talk-avatar-placeholder:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.talk-author-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.talk-date {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.talk-content {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.talk-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.talk-image {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.no-talks {
+    width: 100%;
+    text-align: center;
+    padding: 40px 24px;
+    border-radius: 16px;
+    background-color: rgb(var(--mdui-color-surface-container-low));
+    color: rgb(var(--mdui-color-on-surface-variant));
+}
+</style>
+
+<mdui-layout-main>
+    <div class="articles-container">
+        <!-- 说说列表 -->
+        <% if (talks && talks.length > 0) { %>
+            <% talks.forEach(function(talk) { %>
+                <mdui-card variant="filled" class="talk-card">
+                    <mdui-card-content class="talk-card-content">
+                        <!-- 头部信息 -->
+                        <div class="talk-header">
+                            <mdui-avatar variant="circular" class="talk-avatar">
+                                <% if (talk.avatar) { %>
+                                    <img src="<%= talk.avatar %>" alt="<%= talk.author || config.author %>" loading="lazy">
+                                <% } else { %>
+                                    <mdui-icon>person</mdui-icon>
+                                <% } %>
+                            </mdui-avatar>
+                            <div>
+                                <div class="talk-author-name"><%= talk.author || config.author %></div>
+                                <div class="talk-date"><%= talk.date %></div>
+                            </div>
+                        </div>
+
+                        <!-- 内容 -->
+                        <div class="talk-content">
+                            <%= talk.content %>
+                        </div>
+
+                        <!-- 图片 -->
+                        <% if (talk.images && talk.images.length > 0) { %>
+                            <div class="talk-images">
+                                <% talk.images.forEach(function(image) { %>
+                                    <img src="<%= image %>" alt="说说图片" class="talk-image">
+                                <% }); %>
+                            </div>
+                        <% } %>
+                    </mdui-card-content>
+                </mdui-card>
+            <% }); %>
+        <% } else { %>
+            <div class="no-talks">
+                <mdui-icon name="chat" style="font-size: 3rem; opacity: 0.5; margin-bottom: 16px;"></mdui-icon>
+                <mdui-typography variant="h6"><%= __('shuoshuo.no_talks') %></mdui-typography>
+                <mdui-typography variant="body2" style="margin-top: 8px;"><%= __('shuoshuo.no_talks_desc') %></mdui-typography>
+            </div>
+        <% } %>
+    </div>
+</mdui-layout-main>

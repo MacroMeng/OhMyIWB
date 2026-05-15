@@ -1,0 +1,286 @@
+<style>
+.friends-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.friends-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.friends-card {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.friends-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
+}
+
+.friend-item:last-child {
+    border-bottom: none;
+}
+
+.friend-item:hover {
+    background-color: rgb(var(--mdui-color-surface-container-highest));
+    transform: translateX(4px);
+}
+
+.friend-avatar {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.friend-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 4px;
+}
+
+.friend-name {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.friend-desc {
+    font-size: 0.875rem;
+    margin: 0;
+    opacity: 0.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.friend-arrow {
+    flex-shrink: 0;
+    color: rgb(var(--mdui-color-outline));
+    transition: transform 0.2s ease;
+}
+
+.friend-item:hover .friend-arrow {
+    transform: translateX(4px);
+}
+
+.friends-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.friends-empty-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.friends-empty-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    color: rgb(var(--mdui-color-primary-container));
+}
+
+.friends-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .friends-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .friends-header {
+        padding: 32px 24px;
+    }
+    
+    .friend-item {
+        padding: 18px 24px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    .friends-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .friends-header {
+        padding: 24px 20px;
+    }
+    
+    .friend-item {
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    
+    .friend-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+    }
+    
+    .friends-empty-card {
+        padding: 40px 24px;
+    }
+    
+    .friends-empty-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .friends-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .friends-header {
+        padding: 20px 16px;
+    }
+    
+    .friend-item {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+    
+    .friend-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+    }
+    
+    .friend-name {
+        font-size: 0.9375rem;
+    }
+    
+    .friend-desc {
+        font-size: 0.8125rem;
+    }
+}
+</style>
+
+<div class="friends-page">
+    <!-- 页面标题 -->
+    <mdui-card class="mdui-primary friends-header">
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">
+            <%= __('friend_links.title') %>
+        </mdui-typography>
+        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            <% if (site.data.links && site.data.links.length > 0) { %>
+                <%= __('friend_links.count_prefix') %> <mdui-badge style="margin: 0 8px;"><%= site.data.links.length %></mdui-badge> <%= __('friend_links.count_suffix') %>
+            <% } else { %>
+                <%= __('friend_links.empty') %>
+            <% } %>
+        </mdui-typography>
+    </mdui-card>
+
+    <!-- 友链列表 -->
+    <% if (site.data.links && site.data.links.length > 0) { %>
+        <mdui-card class="mdui-primary friends-card">
+            <div class="friends-list">
+                <% site.data.links.forEach(function(link) { %>
+                    <a href="<%= link.url %>" class="friend-item" target="_blank" rel="noopener noreferrer">
+                        <mdui-avatar class="friend-avatar" variant="rounded">
+                            <% if (link.avatar) { %>
+                                <img src="<%= link.avatar %>" alt="<%= link.name %>" loading="lazy">
+                            <% } else { %>
+                                <mdui-icon>person</mdui-icon>
+                            <% } %>
+                        </mdui-avatar>
+                        
+                        <div class="friend-content">
+                            <div class="friend-name"><%= link.name %></div>
+                            <% if (link.desc) { %>
+                                <div class="friend-desc"><%= link.desc %></div>
+                            <% } %>
+                        </div>
+                        
+                        <mdui-icon class="friend-arrow">chevron_right</mdui-icon>
+                    </a>
+                <% }); %>
+            </div>
+        </mdui-card>
+    <% } else { %>
+        <!-- 空状态 -->
+        <div class="friends-empty">
+            <mdui-card class="mdui-primary friends-empty-card">
+                <mdui-icon class="friends-empty-icon">link_off</mdui-icon>
+                <div class="friends-empty-content">
+                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                        <%= __('friend_links.empty') %>
+                    </mdui-typography>
+                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                        <%= __('friend_links.empty_desc') %>
+                    </mdui-typography>
+                </div>
+            </mdui-card>
+        </div>
+    <% } %>
+</div>

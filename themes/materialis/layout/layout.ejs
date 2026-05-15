@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="<%- config.language %>"">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+    <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+    <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js"> </script>
+
+    <% if (theme.font.primary === 'lxwk') { %>
+        <link rel="stylesheet" href="/fonts/lxwk/lxwk.css">
+    <% } else if (theme.font.primary === 'dingtalk') { %>
+        <link rel="stylesheet" href="/fonts/dingtalk/DingTalk.css">
+    <% } else if (theme.font.primary === 'pingfang') { %>
+        <link rel="stylesheet" href="/fonts/pingfang/pingfang.css">
+    <% } %>
+
+    <%- css('css/style.css') %>
+    <%- css('css/color.css') %>
+    <%- css('css/widgets/page-transition.css') %>
+ 
+    <% if (theme.interceptor.enable) { %>
+        <%- include('widgets/links.ejs') %>        
+    <% } %>
+
+</head>
+<body>
+    <%- include('widgets/appbar') %>
+    <%- include('widgets/sidebar') %>
+    <main class="main">
+        <div class="page-transition-container">
+            <%- body %>
+        </div>
+    </main>
+
+    <%- include('widgets/footer') %>   
+</body>
+
+<script type="module" src="/js/main.js"></script>
+<script src="/js/widgets/appbar.js"></script>
+<script src="/js/widgets/sidebar.js"></script>
+<script src="/js/page-transition.js"></script>
+<script>        
+
+console.log(`
+███╗   ███╗ █████╗ ████████╗███████╗██████╗ ██╗ █████╗ ██╗     ██╗███████╗
+████╗ ████║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║██╔══██╗██║     ██║██╔════╝
+██╔████╔██║███████║   ██║   █████╗  ██████╔╝██║███████║██║     ██║███████╗
+██║╚██╔╝██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║██╔══██║██║     ██║╚════██║
+██║ ╚═╝ ██║██║  ██║   ██║   ███████╗██║  ██║██║██║  ██║███████╗██║███████║
+╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝
+`);
+</script>
+
+<!-- 引入自定义 CSS -->
+<% if (theme.custom && theme.custom.css) { %>
+    <% theme.custom.css.forEach(function(cssFile) { %>
+        <link rel="stylesheet" href="<%- url_for(cssFile) %>">
+    <% }) %>
+<% } %>
+
+<!-- 自定义头部代码 -->
+<% if (theme.custom && theme.custom.head) { %>
+    <%- theme.custom.head %>
+<% } %>
+<!-- 引入自定义 JS -->
+<% if (theme.custom && theme.custom.js) { %>
+    <% theme.custom.js.forEach(function(jsFile) { %>
+        <script src="<%- url_for(jsFile) %>"></script>
+    <% }) %>
+<% } %>
+
+<!-- 自定义底部代码 -->
+<% if (theme.custom && theme.custom.footer) { %>
+    <%- theme.custom.footer %>
+<% } %>
+
+<!-- 纪念日黑白效果 -->
+<% if (theme.memorial_days && theme.memorial_days.enable) { %>
+<script>
+(function() {
+    // 获取今天的日期（月-日格式）
+    const today = new Date();
+    const month = today.getMonth() + 1; // 月份从0开始，需要+1
+    const day = today.getDate();
+    const todayStr = month + '.' + day;
+    
+    // 获取配置的纪念日列表
+    const memorialDays = JSON.parse('<%- JSON.stringify(theme.memorial_days.dates || []) %>');
+    
+    // 检查今天是否为纪念日
+    if (memorialDays.includes(todayStr)) {
+        // 应用黑白效果
+        const style = document.createElement('style');
+        style.innerHTML = `
+            html {
+                filter: grayscale(100%);
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                -o-filter: grayscale(100%);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+})();
+</script>
+<% } %>
+</html>

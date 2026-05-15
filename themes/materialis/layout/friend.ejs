@@ -1,0 +1,8 @@
+<%- include('widgets/sidebar') %>
+<% if (theme.links.use == 0) { %>
+    <p><%= __('friend.no_config') %></p>
+<% } else if (theme.links.use == 1) { %>
+    <%- include('widgets/index/friend_qexo.ejs') %>
+<% } else if (theme.links.use == 2) { %>
+    <%- include('widgets/index/friend_links.ejs') %>
+<% } %>

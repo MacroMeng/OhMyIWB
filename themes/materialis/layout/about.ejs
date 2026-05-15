@@ -1,0 +1,382 @@
+<style>
+.about-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.about-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.about-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    margin: 0 auto 20px;
+    object-fit: cover;
+}
+
+.about-name {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.about-title {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+
+.about-description {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.about-section {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.about-section-header {
+    padding: 24px 32px;
+    background: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.about-section-content {
+    padding: 32px;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill-chip {
+    --mdui-chip-height: 36px;
+    --mdui-chip-container-color: var(--mdui-color-secondary-container);
+    --mdui-chip-label-text-color: var(--mdui-color-on-secondary-container);
+    border-radius: 18px;
+}
+
+.contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 16px;
+    background-color: rgb(var(--mdui-color-surface-container-high));
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: rgb(var(--mdui-color-surface-container-highest));
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+    font-size: 24px;
+}
+
+.contact-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.contact-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.contact-link {
+    font-size: 14px;
+    opacity: 0.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.project-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container-high));
+    transition: all 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.project-content {
+    padding: 24px;
+}
+
+.project-name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.project-description {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(var(--mdui-color-primary));
+    font-weight: 500;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .about-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .about-header {
+        padding: 32px 24px;
+    }
+    
+    .about-section-content {
+        padding: 24px;
+    }
+    
+    .contacts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    .about-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .about-header {
+        padding: 24px 20px;
+    }
+    
+    .about-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .about-name {
+        font-size: 24px;
+    }
+    
+    .about-title {
+        font-size: 16px;
+    }
+    
+    .about-section-content {
+        padding: 20px;
+    }
+    
+    .contacts-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .contact-card {
+        padding: 16px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .project-content {
+        padding: 20px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .about-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .about-header {
+        padding: 20px 16px;
+    }
+    
+    .about-avatar {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .about-name {
+        font-size: 22px;
+    }
+    
+    .about-description {
+        font-size: 14px;
+    }
+    
+    .about-section-content {
+        padding: 16px;
+    }
+    
+    .contact-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .contact-name {
+        font-size: 15px;
+    }
+    
+    .project-name {
+        font-size: 16px;
+    }
+}
+</style>
+
+<div class="about-page">
+    <!-- 页面标题 -->
+    <mdui-card class="about-header">
+        <% if (theme.sidebar.avatar) { %>
+            <img src="<%= theme.sidebar.avatar %>" alt="Avatar" class="about-avatar">
+        <% } %>
+        <div class="about-name"><%= theme.sidebar.name || theme.data.about.name %></div>
+        <div class="about-title"><%= theme.data.about.title %></div>
+        <div class="about-description"><%= theme.data.about.description %></div>
+    </mdui-card>
+
+    <!-- 技能部分 -->
+    <% if (site.data.about.skills && site.data.about.skills.length > 0) { %>
+        <mdui-card class="about-section">
+            <div class="about-section-header">
+                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.skills') %></mdui-typography>
+            </div>
+            <div class="about-section-content">
+                <div class="skills-container">
+                    <% site.data.about.skills.forEach(function(skill) { %>
+                        <mdui-chip class="skill-chip" variant="filled">
+                            <%= skill %>
+                        </mdui-chip>
+                    <% }); %>
+                </div>
+            </div>
+        </mdui-card>
+    <% } %>
+
+    <!-- 联系方式 -->
+    <% if (site.data.about.contacts && site.data.about.contacts.length > 0) { %>
+        <mdui-card class="about-section">
+            <div class="about-section-header">
+                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.contacts') %></mdui-typography>
+            </div>
+            <div class="about-section-content">
+                <div class="contacts-grid">
+                    <% site.data.about.contacts.forEach(function(contact) { %>
+                        <a href="<%= contact.link %>" class="contact-card" target="_blank" rel="noopener">
+                            <div class="contact-icon">
+                                <mdui-icon><%= contact.icon || 'link' %></mdui-icon>
+                            </div>
+                            <div class="contact-content">
+                                <div class="contact-name"><%= contact.name %></div>
+                                <div class="contact-link"><%= contact.link.replace('mailto:', '').replace('https://', '').replace('http://', '') %></div>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            </div>
+        </mdui-card>
+    <% } %>
+
+    <!-- 项目展示 -->
+    <% if (site.data.about.projects && site.data.about.projects.length > 0) { %>
+        <mdui-card class="about-section">
+            <div class="about-section-header">
+                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.projects') %></mdui-typography>
+            </div>
+            <div class="about-section-content">
+                <div class="projects-grid">
+                    <% site.data.about.projects.forEach(function(project) { %>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <div class="project-name"><%= project.name %></div>
+                                <div class="project-description"><%= project.description %></div>
+                                <% if (project.link) { %>
+                                    <a href="<%= project.link %>" class="project-link" target="_blank" rel="noopener">
+                                        <%= __('about.project_detail') %>
+                                        <mdui-icon>arrow_forward</mdui-icon>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </mdui-card>
+    <% } %>
+</div>
