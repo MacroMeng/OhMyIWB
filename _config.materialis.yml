@@ -3,21 +3,21 @@
 #Comment 请选择一个
 #---start---
 comment:
-  service: twikoo  # 可选: twikoo, waline, giscus
+  service: nothing  # 可选: twikoo, waline, giscus
 # 侧边栏配置
 #---start---
 sidebar:
   # 用户信息
-  name: "system:error"
+  name: "OhMyIWB"
   slogen: "不定期分享 IWB 小知识、软件、更新等内容"
-  avatar: "https://github.com/MacroMeng.png"
+  avatar: "github.com/MacroMeng.png"
 # 导航菜单
 nav:
   - name: "首页"
     icon: "home"
     url: "/"
     
-  - name: "文章归档"
+  - name: "文章"
     icon: "article"
     url: "/diary/"
     
@@ -29,10 +29,6 @@ nav:
     icon: "tag"
     url: "/tags/"
     
-  - name: "关于"
-    icon: "person"
-    url: "/about/"
-
   - name: "友链"
     icon: "link"
     url: "/links/"
@@ -77,7 +73,7 @@ custom:
 #字体设置
 #---start---
 font:
-  primary: pingfang  # 只能选择一个: lxwk  dingtalk pingfang 或者false
+  primary: lxwk  # 只能选择一个: lxwk  dingtalk pingfang 或者false
 #---end---
 #Footer
 #---start---
@@ -95,11 +91,11 @@ footer:
   theme_name: "materialis"
   
   # 自定义徽章
-  # badges:
-  #   - text: "开源"
-  #     variant: "small"
-  #     icon: "code"
-  #     href: "https://github.com/yourname/your-theme"
+  badges:
+    - text: "由 MacrosMeng 用♥️制作"
+      variant: "small"
+      icon: "volunteer_activism"
+      href: "/"
     
   #   - text: "v1.0.0"
   #     variant: "small"
@@ -155,3 +151,8 @@ index_generator:
 #title：按文章标题字母顺序排列
 #-title：按文章标题字母倒序排列
 #random：随机排列
+data:
+  about:
+    name: "OhMyIWB"
+    title: "不定期分享 IWB 小知识、软件、更新等内容"
+    description: "你好👋这里是OMI"

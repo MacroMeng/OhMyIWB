@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: OhMyIWB
+title: "OhMyIWB"
 subtitle: '不定期分享 IWB 知识/软件/更新/...的地方'
 description: ''
 keywords:
@@ -91,12 +91,13 @@ pagination_dir: page
 ## include:/exclude: options only apply to the 'source/' folder
 include:
 exclude:
+  - "*.yml"
 ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: Materialis
+theme: materialis
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -109,3 +110,11 @@ feed:
   limit: 20
   content: true
   order_by: -date
+
+data:
+  about:
+    title: ""
+    name: ""
+    description: ""
+  skills:
+
