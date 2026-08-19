@@ -20,7 +20,7 @@ OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是
 
 ## 协同作者
 
-截至 README 更新日，@MacroMeng (STCN@MacrosMeng) 与 @yizhilanzhu (STCN@yizhilanzhu) 是两位联合撰稿人。
+截至 README 更新日，@MacroMeng (STCN@MacrosMeng), @yizhilanzhu (STCN@yizhilanzhu) 与 @MKStoler1024/@MKStoler2048/@MKStoler4096 (STCN@MKStoler) 都为 OMI 做出了贡献。
 
 ## 参与贡献
 
