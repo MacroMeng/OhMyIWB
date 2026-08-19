@@ -10,7 +10,7 @@ sidebar:
   # 用户信息
   name: "OhMyIWB"
   slogen: "不定期分享 IWB 小知识、软件、更新等内容"
-  avatar: "github.com/MacroMeng.png"
+  avatar: "https://raw.githubusercontent.com/MacroMeng/OhMyIWB/refs/heads/master/source/images/omi.png"
 # 导航菜单
 nav:
   - name: "首页"
