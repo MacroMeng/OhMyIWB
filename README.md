@@ -1,4 +1,6 @@
-# OhMyIWB⁉ 我了个 IWB 啊⁈
+<img src="https://raw.githubusercontent.com/MacroMeng/OhMyIWB/refs/heads/master/source/images/pstomi.jpg" alt="OMI poster" >
+
+<h1><img src="https://raw.githubusercontent.com/MacroMeng/OhMyIWB/refs/heads/master/source/images/omi.png" width=64 align=left>OhMyIWB · 智在知互 思于识通</h1>
 
 OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是每天，不过没有就是没活了）分享 IWB 小知识、软件、更新等内容。
 
