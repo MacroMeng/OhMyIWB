@@ -1,7 +1,8 @@
 ---
 layout: page
 catalogue: true
-path: daily
+path: thinklog
 pageTitle: OMI Thinklog 目录
 article: false
+title: OMI Thinklog
 ---
