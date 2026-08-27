@@ -120,7 +120,7 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/MacroMeng/OhMyIWB' }
     ]
   },
-  srcDir: './posts',
+  srcDir: 'posts',
   markdown: {
     math: true
   }
