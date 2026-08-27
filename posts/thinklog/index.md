@@ -1,9 +1,7 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
-layout: home
-
-banner:
-  title: "OMI Thinklog"
-  description: ["我思故我在。 ——笛卡尔"]
-  bgStyle: 'partImg'
+layout: page
+catalogue: true
+path: daily
+pageTitle: OMI Thinklog 目录
+article: false
 ---

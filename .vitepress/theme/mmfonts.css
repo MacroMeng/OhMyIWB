@@ -2,6 +2,9 @@
   --vp-font-family-base: "Google Sans Flex", "Shanggu Sans", sans-serif;
   --vp-font-family-mono: "Maple Mono NF CN", monospace
 }
+.vp-doc {
+  font-family: 'Shanggu Serif', serif;
+}
 
 @font-face {
   font-family: "Google Sans Flex";
