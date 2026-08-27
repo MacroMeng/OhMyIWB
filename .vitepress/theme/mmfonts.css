@@ -1,0 +1,37 @@
+:root {
+  --vp-font-family-base: "Google Sans Flex", "Shanggu Sans", sans-serif;
+  --vp-font-family-mono: "Maple Mono NF CN", monospace
+}
+
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("/assets/fonts/GoogleSansFlex.ttf")
+}
+@font-face {
+  font-family: "Shanggu Sans";
+  src: url("/assets/fonts/ShangguSans-VF.otf");
+}
+@font-face {
+  font-family: "Shanggu Serif";
+  src: url("/assets/fonts/ShangguSerif-VF.otf");
+}
+@font-face {
+  font-family: "Maple Mono NF CN";
+  src: url("/assets/fonts/MapleMono-NF-CN-Regular.ttf");
+}
+@font-face {
+  font-family: "Maple Mono NF CN";
+  src: url("/assets/fonts/MapleMono-NF-CN-Bold.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Maple Mono NF CN";
+  src: url("/assets/fonts/MapleMono-NF-CN-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Maple Mono NF CN";
+  src: url("/assets/fonts/MapleMono-NF-CN-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
