@@ -28,6 +28,7 @@ export const teekConfig = defineTeekConfig({
   bodyBgImg: {},
   pageStyle: "segment-nav",
   themeEnhance: {
+    hidden: true, // 隐藏主题增强面板，但下面的默认值仍然生效
     layoutSwitch: {
       defaultMode: "original"
     }

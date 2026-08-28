@@ -84,3 +84,27 @@
   margin-top: 24px;
 }
 
+/* ---------- 首页 Banner 压矮 ---------- */
+/* Teek 的 fullImg 风格写死 100vh，这里改成 --omi-banner-height，让首页文章列表更早露出 */
+
+:root {
+  --omi-banner-height: 62vh;
+}
+
+.tk-banner.is-full-img .tk-banner__content,
+.tk-banner.is-full-img .tk-banner-bg-image.full {
+  height: var(--omi-banner-height);
+  min-height: 360px;
+}
+
+/* 原始 15vh 的底部留白在压矮后会把标题挤到顶部 */
+.tk-banner.is-full-img .tk-banner__content.no-feature {
+  padding-bottom: 6vh;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --omi-banner-height: 52vh;
+  }
+}
+
