@@ -33,7 +33,12 @@ export const teekConfig = defineTeekConfig({
     }
   },
   post: {
-    coverImgMode: "full"
+    postStyle: "card",
+    coverImgMode: "full",
+    showCapture: true, // 文章无 frontmatter.description 与 <!-- more -->，靠自动截取正文产生摘要
+  },
+  page: {
+    pageSize: 12,
   },
   comment: false,
   codeBlock: {
