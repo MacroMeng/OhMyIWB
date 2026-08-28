@@ -1,15 +1,15 @@
 /* 瀑布流布局覆盖。Teek 只内置 list（单列）与 card（等宽 grid），此处改为 CSS 多列实现真正的错落排布。
-   选择器刻意比主题多一层，避免主题组件按需注入的 CSS 后置生效而覆盖这里。 */
+   重复类名抬高优先级，避免主题组件按需注入的 CSS 后置生效而覆盖这里。 */
 
-/* ---------- 首页文章列表 ---------- */
+/* ---------- 文章卡片列表（首页与 Daily/Thinklog 共用） ---------- */
 
-.tk-home-main .tk-post.is-card > ul {
+.tk-post.tk-post.is-card > ul {
   display: block;
   column-width: 240px;
   column-gap: 1.1rem;
 }
 
-.tk-home-main .tk-post.is-card > ul > li {
+.tk-post.tk-post.is-card > ul > li {
   display: block;
   list-style: none;
   margin: 0 0 1.1rem;
@@ -19,12 +19,12 @@
 }
 
 /* 主题给卡片写死了 height:100%，多列容器里会塌成 0 */
-.tk-home-main .tk-post.is-card .tk-post-item-card {
+.tk-post.tk-post.is-card .tk-post-item-card {
   height: auto;
 }
 
 /* 标题放开单行省略，与摘要一起构成高度差 */
-.tk-home-main .tk-post-item-card__info .title {
+.tk-post-item-card__info .title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -34,32 +34,47 @@
   line-height: 1.4;
 }
 
-.tk-home-main .tk-post-item-card__info .excerpt {
+.tk-post-item-card__info .excerpt {
   -webkit-line-clamp: 6;
   line-clamp: 6;
 }
 
-.tk-home-main .tk-post-item-card__cover-img {
+.tk-post-item-card__cover-img {
   aspect-ratio: 16 / 9;
 }
 
-/* ---------- Daily / Thinklog 目录页 ---------- */
-
-.tk-catalogue .tk-catalogue__wrapper ul {
-  display: block;
-  column-width: 260px;
-  column-gap: 2rem;
-}
-
-.tk-catalogue .tk-catalogue__wrapper ul > li {
-  width: auto;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-}
-
-/* 多列需要更宽的容器，否则只能排出一列 */
-@media (min-width: 1280px) {
-  .tk-article-page.tk-catalogue {
-    width: min(var(--tk-home-max-width), 100%);
+/* 窄屏下 240px 的列宽会挤成两列，强制单列 */
+@media (max-width: 768px) {
+  .tk-post.tk-post.is-card > ul {
+    column-width: auto;
+    column-count: 1;
   }
 }
+
+/* ---------- Daily / Thinklog 列表页 ---------- */
+
+.omi-post-cards {
+  max-width: var(--tk-home-max-width);
+  margin: 0 auto;
+}
+
+.omi-post-cards__header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.omi-post-cards__header h2 {
+  margin: 0;
+  padding-top: 0;
+  border-top: none;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.omi-post-cards__header .count {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
