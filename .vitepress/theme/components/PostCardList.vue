@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref, watch } from "vue";
-import { usePosts, useWindowSize, TkHomePostItemCard, TkPagination } from "vitepress-theme-teek";
+import {
+  usePosts,
+  useTeekConfig,
+  useWindowSize,
+  TkHomePostItemCard,
+  TkPagination,
+} from "vitepress-theme-teek";
 
-const props = withDefaults(defineProps<{ path: string; title?: string; pageSize?: number }>(), {
-  pageSize: 12,
-});
+const props = defineProps<{ path: string; title?: string; pageSize?: number }>();
 
 const posts = usePosts();
+const { getTeekConfigRef } = useTeekConfig();
+const pageConfig = getTeekConfigRef<{ pageSize?: number }>("page", {});
+// 未显式传入时跟随主题的 page.pageSize，与首页保持同一档分页粒度
+const pageSize = computed(() => props.pageSize ?? pageConfig.value.pageSize ?? 24);
+
 // sortPostsByDate 已排除 article: false 的页面，所以目录页自身不会出现在列表里
 const list = computed(() =>
   posts.value.sortPostsByDate.filter(post => post.url.startsWith(`/${props.path}/`))
@@ -14,10 +23,10 @@ const list = computed(() =>
 
 const pageNum = ref(1);
 const currentPosts = computed(() =>
-  list.value.slice((pageNum.value - 1) * props.pageSize, pageNum.value * props.pageSize)
+  list.value.slice((pageNum.value - 1) * pageSize.value, pageNum.value * pageSize.value)
 );
 
-watch(list, () => (pageNum.value = 1));
+watch([list, pageSize], () => (pageNum.value = 1));
 
 const pageProps = reactive<{ size: "default" | "small"; layout: string }>({
   size: "default",

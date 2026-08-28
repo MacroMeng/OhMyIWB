@@ -38,7 +38,7 @@ export const teekConfig = defineTeekConfig({
     showCapture: true, // 文章无 frontmatter.description 与 <!-- more -->，靠自动截取正文产生摘要
   },
   page: {
-    pageSize: 12,
+    pageSize: 24, // 卡片瀑布流单张较矮，一页放多些以压缩页数
   },
   comment: false,
   codeBlock: {
