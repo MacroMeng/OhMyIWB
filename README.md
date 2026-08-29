@@ -1,4 +1,4 @@
-<img src="posts/public/assets/images/pstomi.jpg" alt="OMI poster" >
+<img src="posts/public/assets/images/pstomi.webp" alt="OMI poster" >
 
 <h1><img src="posts/public/assets/images/omi.png" width=64 align=left>OhMyIWB · 智在知互 思于识通</h1>
 

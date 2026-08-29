@@ -45,28 +45,36 @@ const handlePagination = () => {
 
 <template>
   <div class="omi-post-cards">
+    <nav v-if="title" class="omi-post-cards__breadcrumb" aria-label="面包屑">
+      <a href="/">首页</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <span class="current" aria-current="page">{{ title }}</span>
+    </nav>
+
     <div v-if="title" class="omi-post-cards__header">
-      <h2>{{ title }}</h2>
+      <h1>{{ title }}</h1>
       <span class="count">{{ list.length }} 篇</span>
     </div>
 
-    <div class="tk-post is-card">
-      <ul>
-        <li v-for="post in currentPosts" :key="post.url">
-          <TkHomePostItemCard :post="post" />
-        </li>
-      </ul>
-    </div>
+    <div class="omi-post-cards__body">
+      <div class="tk-post is-card">
+        <ul>
+          <li v-for="post in currentPosts" :key="post.url">
+            <TkHomePostItemCard :post="post" />
+          </li>
+        </ul>
+      </div>
 
-    <div v-if="list.length > pageSize" class="omi-post-cards__pagination flx-justify-center">
-      <TkPagination
-        v-bind="pageProps"
-        v-model:current-page="pageNum"
-        :page-size="pageSize"
-        :total="list.length"
-        background
-        @current-change="handlePagination"
-      />
+      <div v-if="list.length > pageSize" class="omi-post-cards__pagination flx-justify-center">
+        <TkPagination
+          v-bind="pageProps"
+          v-model:current-page="pageNum"
+          :page-size="pageSize"
+          :total="list.length"
+          background
+          @current-change="handlePagination"
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -8,7 +8,7 @@ export const teekConfig = defineTeekConfig({
   loading: "Loading OMI……",
   banner: {
     imgSrc: [
-      "/assets/Poster.png"
+      "/assets/Poster.webp"
     ],
     bgStyle: "fullImg",
     descStyle: "default",
@@ -57,7 +57,7 @@ export const teekConfig = defineTeekConfig({
     slogan: "智在知互 · 思于识通", // 博主签名
     avatar: "/assets/CharacterOnly.png", // 博主头像
     shape: "circle", // 头像风格：square 为方形头像，circle 为圆形头像，circle-rotate 可支持鼠标悬停旋转，circle-rotate-last 将会持续旋转 59s
-    circleBgImg: "/assets/Poster.png", // 背景图片
+    circleBgImg: "/assets/Poster.webp", // 背景图片
     circleBgMask: true, // 遮罩层是否显示，仅当 shape 为 circle 且 circleBgImg 配置时有效
     circleSize: 100, // 头像大小
     color: "#ffffff", // 字体颜色
@@ -115,6 +115,42 @@ export default defineConfig({
   title: "OhMyIWB",
   description: "OhMyIWB · 智在知互 思于识通",
   extends: teekConfig,
+  head: [
+    // 预连接 Google Fonts 各源（含国内镜像），减少 DNS/TLS 握手延迟
+    ["link", { rel: "preconnect", href: "https://google-fonts.mirrors.sjtug.sjtu.edu.cn" }],
+    ["link", { rel: "preconnect", href: "https://fonts.loli.net" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.cn" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    // 竞速加载 Noto Sans SC / Noto Serif SC：镜像与官方同时发起请求，先加载成功者胜出，
+    // 迟到的 link 会被移除，避免 @font-face 被后加载的样式表覆盖造成字体文件重复下载。
+    [
+      "script",
+      {},
+      `(function () {
+  if (document.getElementById('omi-gfonts')) return;
+  var FAMILY = 'family=Noto+Serif+SC:wght@400;700&display=swap';
+  var SOURCES = [
+    'https://google-fonts.mirrors.sjtug.sjtu.edu.cn/css2?' + FAMILY,
+    'https://fonts.loli.net/css2?' + FAMILY,
+    'https://fonts.googleapis.cn/css2?' + FAMILY,
+    'https://fonts.googleapis.com/css2?' + FAMILY
+  ];
+  var loaded = false;
+  function load(href) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.id = 'omi-gfonts';
+    link.href = href;
+    var cleanup = function () { if (link.parentNode) link.parentNode.removeChild(link); };
+    link.onload = function () { if (loaded) cleanup(); else loaded = true; };
+    link.onerror = cleanup;
+    document.head.appendChild(link);
+  }
+  for (var i = 0; i < SOURCES.length; i++) load(SOURCES[i]);
+})();`,
+    ],
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
