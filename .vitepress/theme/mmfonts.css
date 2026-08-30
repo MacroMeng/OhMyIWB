@@ -1,40 +1,25 @@
+/* 字体栈。
+   衬线正文使用 Noto Serif SC（Google Fonts 与国内镜像竞速加载，注入脚本见
+   .vitepress/config.mts 的 head 配置）。
+   黑体（标题/导航/UI）改用系统简体字体栈：PingFang SC、HarmonyOS Sans SC、
+   MiSans、Microsoft YaHei 等均为各平台预装的标准简体黑体，字形无繁体倾向，
+   且无需加载 web 字体，进一步缩短首屏。
+   Latin 部分优先使用 VitePress 自带的 Inter / JetBrains Mono（本地打包，无需请求 CDN）。
+   所有 @font-face 字体均带 display=swap，加载完成前使用系统字体兜底，不阻塞首屏。 */
+
 :root {
-  --vp-font-family-base: "Google Sans Flex", "Shanggu Sans", sans-serif;
-  --vp-font-family-mono: "Maple Mono NF CN", monospace
-}
-.vp-doc {
-  font-family: 'Shanggu Serif', serif;
+  --vp-font-family-base: "Google Sans Flex", "Inter", "Noto Sans SC", "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  --vp-font-family-mono: "Maple Mono NF CN", "JetBrains Mono", monospace;
 }
 
-@font-face {
-  font-family: "Google Sans Flex";
-  src: url("/assets/fonts/GoogleSansFlex.ttf")
+.vp-doc {
+  font-family: "Shanggu Serif VF", "Noto Serif SC", "Songti SC", "SimSun", serif;
 }
-@font-face {
-  font-family: "Shanggu Sans";
-  src: url("/assets/fonts/ShangguSans-VF.otf");
+
+.vp-doc strong {
+  font-weight: 800
 }
-@font-face {
-  font-family: "Shanggu Serif";
-  src: url("/assets/fonts/ShangguSerif-VF.otf");
-}
-@font-face {
-  font-family: "Maple Mono NF CN";
-  src: url("/assets/fonts/MapleMono-NF-CN-Regular.ttf");
-}
-@font-face {
-  font-family: "Maple Mono NF CN";
-  src: url("/assets/fonts/MapleMono-NF-CN-Bold.ttf");
-  font-weight: bold;
-}
-@font-face {
-  font-family: "Maple Mono NF CN";
-  src: url("/assets/fonts/MapleMono-NF-CN-Italic.ttf");
-  font-style: italic;
-}
-@font-face {
-  font-family: "Maple Mono NF CN";
-  src: url("/assets/fonts/MapleMono-NF-CN-BoldItalic.ttf");
-  font-weight: bold;
-  font-style: italic;
+
+.tk-article-analyze__wrapper, .tk-article-update__content--date, .tk-article-update--num, .tk-category__list {
+  font-variant-numeric: slashed-zero tabular-nums
 }

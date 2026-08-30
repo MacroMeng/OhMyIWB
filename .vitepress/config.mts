@@ -1,6 +1,14 @@
 import { defineConfig } from 'vitepress'
 import { defineTeekConfig } from "vitepress-theme-teek/config"
+import { RssPlugin, RSSOptions } from 'vitepress-plugin-rss'
 
+const baseUrl = 'https://ohmyiwb.mm666.qzz.io'
+const RSS: RSSOptions = {
+  title: 'OhMyIWB',
+  baseUrl,
+  copyright: '(C) 2026-Now, OhMyIWB Project, in CC-BY-SA 4.0',
+  filename: 'feed.xml',
+}
 // Teek 主题配置
 export const teekConfig = defineTeekConfig({
   teekHome: true,
@@ -8,7 +16,7 @@ export const teekConfig = defineTeekConfig({
   loading: "Loading OMI……",
   banner: {
     imgSrc: [
-      "/assets/Poster.png"
+      "/assets/Poster.webp"
     ],
     bgStyle: "fullImg",
     descStyle: "default",
@@ -28,12 +36,18 @@ export const teekConfig = defineTeekConfig({
   bodyBgImg: {},
   pageStyle: "segment-nav",
   themeEnhance: {
+    hidden: true, // 隐藏主题增强面板，但下面的默认值仍然生效
     layoutSwitch: {
       defaultMode: "original"
     }
   },
   post: {
-    coverImgMode: "full"
+    postStyle: "card",
+    coverImgMode: "full",
+    showCapture: true, // 文章无 frontmatter.description 与 <!-- more -->，靠自动截取正文产生摘要
+  },
+  page: {
+    pageSize: 24, // 卡片瀑布流单张较矮，一页放多些以压缩页数
   },
   comment: false,
   codeBlock: {
@@ -48,14 +62,17 @@ export const teekConfig = defineTeekConfig({
   },
   blogger: {
     name: "OhMyIWB", // 博主昵称
-    slogan: "智在知互 · 思于识通", // 博主签名
+    slogan: "「智在知互 · 思于识通」一个扎根于社区的博客类项目，不定期（一般是每天，不过没有就是没活了）分享 IWB 小知识、软件、更新等内容。", // 博主签名
     avatar: "/assets/CharacterOnly.png", // 博主头像
     shape: "circle", // 头像风格：square 为方形头像，circle 为圆形头像，circle-rotate 可支持鼠标悬停旋转，circle-rotate-last 将会持续旋转 59s
-    circleBgImg: "/assests/Poster.png", // 背景图片
+    circleBgImg: "/assets/Poster.webp", // 背景图片
     circleBgMask: true, // 遮罩层是否显示，仅当 shape 为 circle 且 circleBgImg 配置时有效
     circleSize: 100, // 头像大小
     color: "#ffffff", // 字体颜色
     // 状态，仅当 shape 为 circle 相关值时有效
+  },
+  topArticle: {
+    enabled: false
   },
   friendLink: {
     enabled: true, // 是否启用友情链接卡片
@@ -65,6 +82,18 @@ export const teekConfig = defineTeekConfig({
         desc: "在 STCN 论坛与诸多志同道合的同学讨论 OMI。",
         avatar: "https://forum.smart-teach.cn/assets/favicon-v4ksoaxf.png",
         link: "http://forum.smart-teach.cn/d/1783",
+      },
+      {
+        name: "MKStoler OMI Mirror",
+        desc: "MKStoler1024's Blog 的 OMI 镜像。",
+        avatar: "/assets/CharacterOnly.png",
+        link: "https://blog.edicdn.eu.org/posts/ohmyiwb.html",
+      },
+      {
+        name: "apanzinc",
+        desc: "我是 apanzinc，一名初三学生，专注于前后端开发与人工智能应用的学习与实践。",
+        avatar: "https://static.apanzinc.top/apanzinc/logo.png",
+        link: "https://apanzinc.top",
       },
     ], // 友情链接数据列表
   },
@@ -83,9 +112,7 @@ export const teekConfig = defineTeekConfig({
   ], 
   footerInfo: {
     // 页脚信息，支持 HTML 格式（位于主题版权上方）
-    topMessage: ["OhMyIWB Project"],
-    // 页脚信息，支持 HTML 格式（位于主题版权下方）
-    bottomMessage: ["智在知互 · 思于识通"],
+    topMessage: ["OhMyIWB Project", "智在知互 · 思于识通"],
     // 主题版权配置
     theme: {
       show: true,
@@ -94,7 +121,7 @@ export const teekConfig = defineTeekConfig({
     copyright: {
       show: true, // 是否显示博客版权
       createYear: 2026, // 创建年份
-      suffix: "OhMyIWB Project", // 后缀
+      suffix: "以 CC-BY-NC-SA 4.0 公开", // 后缀
     },
   },
   // 文章页底部的最近更新栏配置
@@ -107,8 +134,51 @@ export const teekConfig = defineTeekConfig({
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "OhMyIWB",
+  titleTemplate: "OMI | :title",
   description: "OhMyIWB · 智在知互 思于识通",
   extends: teekConfig,
+  head: [
+    ["link", { rel: 'icon', href: '/assets/omi.svg' }],
+    // 预连接 Google Fonts 各源（含国内镜像），减少 DNS/TLS 握手延迟
+    ["link", { rel: "preconnect", href: "https://google-fonts.mirrors.sjtug.sjtu.edu.cn" }],
+    ["link", { rel: "preconnect", href: "https://fonts.loli.net" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.cn" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    ["link", { rel: "preconnect", href: "https://fonts.zeoseven.com" }],
+    // 竞速加载 Noto Sans SC / Noto Serif SC：镜像与官方同时发起请求，先加载成功者胜出，
+    // 迟到的 link 会被移除，避免 @font-face 被后加载的样式表覆盖造成字体文件重复下载。
+    [
+      "script",
+      {},
+      `(function () {
+  if (document.getElementById('omi-gfonts')) return;
+  var FAMILY = 'family=Noto+Serif+SC:wght@400;700&display=swap';
+  var SOURCES = [
+    'https://google-fonts.mirrors.sjtug.sjtu.edu.cn/css2?' + FAMILY,
+    'https://fonts.loli.net/css2?' + FAMILY,
+    'https://fonts.googleapis.cn/css2?' + FAMILY,
+    'https://fonts.googleapis.com/css2?' + FAMILY
+  ];
+  var loaded = false;
+  function load(href) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.id = 'omi-gfonts';
+    link.href = href;
+    var cleanup = function () { if (link.parentNode) link.parentNode.removeChild(link); };
+    link.onload = function () { if (loaded) cleanup(); else loaded = true; };
+    link.onerror = cleanup;
+    document.head.appendChild(link);
+  }
+  for (var i = 0; i < SOURCES.length; i++) load(SOURCES[i]);
+})();`,
+    ],
+    ["link", { href: "https://fontsapi.zeoseven.com/442/main/result.css", onload: "this.rel='stylesheet'", rel: "preload", as: "style", crossorigin: "" }],
+    [ "noscript", {}, `<link rel="stylesheet" href="https://fontsapi.zeoseven.com/442/main/result.css />`],
+    ["link", { href: "https://fontsapi.zeoseven.com/165/main/result.css", onload: "this.rel='stylesheet'", rel: "preload", as: "style", crossorigin: "" }],
+    ["noscript", {}, `<link rel="stylesheet" href="https://fontsapi.zeoseven.com/165/main/result.css />`],
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -123,5 +193,8 @@ export default defineConfig({
   srcDir: 'posts',
   markdown: {
     math: true
+  },
+  vite: {
+    plugins: [RssPlugin(RSS)]
   }
 })
