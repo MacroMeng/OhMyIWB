@@ -1,6 +1,14 @@
 import { defineConfig } from 'vitepress'
 import { defineTeekConfig } from "vitepress-theme-teek/config"
+import { RssPlugin, RSSOptions } from 'vitepress-plugin-rss'
 
+const baseUrl = 'https://ohmyiwb.mm666.qzz.io'
+const RSS: RSSOptions = {
+  title: 'OhMyIWB',
+  baseUrl,
+  copyright: '(C) 2026-Now, OhMyIWB Project, in CC-BY-SA 4.0',
+  filename: 'feed.xml',
+}
 // Teek 主题配置
 export const teekConfig = defineTeekConfig({
   teekHome: true,
@@ -185,5 +193,8 @@ export default defineConfig({
   srcDir: 'posts',
   markdown: {
     math: true
+  },
+  vite: {
+    plugins: [RssPlugin(RSS)]
   }
 })
