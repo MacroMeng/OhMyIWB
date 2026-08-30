@@ -6,12 +6,20 @@
    且无需加载 web 字体，进一步缩短首屏。
    Latin 部分优先使用 VitePress 自带的 Inter / JetBrains Mono（本地打包，无需请求 CDN）。
    所有 @font-face 字体均带 display=swap，加载完成前使用系统字体兜底，不阻塞首屏。 */
+
 :root {
-  --vp-font-family-base: "Inter", "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  --vp-font-family-mono: "JetBrains Mono", "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", monospace;
+  --vp-font-family-base: "Google Sans Flex", "Inter", "Noto Sans SC", "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  --vp-font-family-mono: "Maple Mono NF CN", "JetBrains Mono", monospace;
 }
 
 .vp-doc {
-  font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  font-family: "Shanggu Serif VF", "Noto Serif SC", "Songti SC", "SimSun", serif;
 }
 
+.vp-doc strong {
+  font-weight: 800
+}
+
+.tk-article-analyze__wrapper, .tk-article-update__content--date, .tk-article-update--num, .tk-category__list {
+  font-variant-numeric: slashed-zero tabular-nums
+}

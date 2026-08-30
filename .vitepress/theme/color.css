@@ -1,0 +1,4 @@
+html[theme-color="vp-primary"] {
+  --vp-c-brand-1: hsl(267, 90%, 81%);
+  --vp-c-brand-soft: hsla(267, 31%, 54%, 0.2);
+}
