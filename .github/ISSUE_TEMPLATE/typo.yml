@@ -1,0 +1,40 @@
+name: 错别字反馈
+description: 我在阅读 OMI 时发现了错字或语法错误
+title: "*写入标题"
+labels: ["Typo"]
+type: Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您反馈错字。请在上面的文本框⬆️起一个能够清晰描述错误信息的标题，帮助我们快速定位并修复它。
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 在开始反馈这个问题之前，请先检查：
+      options:
+        - label: 我已阅读 OMI 网页版文章，确认这一 Bug 还没有修复。我也已在 [Issues](https://github.com/MacroMeng/OhMyIWB/issues?q=type%3ABug) 中检索，确认这一 Bug 未被提交过。
+          required: true
+        - label: 我已经仔细阅读过选项里的内容，并且知道这个选项不用勾选。
+  - type: markdown
+    attributes:
+      value: |
+        ### 错字信息
+
+        请详细描述阅读 OMI 时遇到的错字 / 语法错误是什么。
+  - type: textarea
+    id: describe
+    attributes:
+      label: 描述错误
+      description: 先描述错别字存在的位置，如「OMI Vol.114 XXX 那一段第一句」（有能力者建议定位到 `/posts/daily` `/posts/thinklog` 源文件中的行号和列号），并描述详情，如「字体」被写成了「子体」
+    validations:
+      required: true
+  - type: checkboxes
+    id: revision
+    attributes:
+      label: 最后一步
+      description: 回顾您的回答
+      options:
+        - label: 我认为上述的描述已经足以详细，以允许开发人员能复现该问题。我同意如果我的 Issue 没有按照上述的要求填写，可能会被无条件关闭。
+          required: true
