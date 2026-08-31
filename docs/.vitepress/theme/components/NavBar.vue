@@ -54,25 +54,47 @@ function goToHeading(id) {
   scrollTo(id)
 }
 
-// 切换主题：跟随系统 ↔ 手动固定
-// - 当前显示与设备一致（跟随系统）→ 点击固定为相反主题
-// - 当前已固定 → 点击恢复跟随系统
-// VueUse useDark 的 setter 内置"智能 auto"：写入值与系统一致时自动回写 auto，无需直接操作 localStorage
+// 主题三态切换：跟随设备(auto) → 固定暗色 → 固定亮色 → 跟随设备
+// VueUse useDark 的 setter 有"智能 auto"（写入值与系统一致时被吞成 auto），无法表达三态，
+// 因此直接写 localStorage 并派发 StorageEvent，VueUse useStorage 会同步响应式状态（isDark / html.dark）
+const APPEARANCE_KEY = 'vitepress-theme-appearance'
 const hydrated = ref(false)
+const appearanceMode = ref('auto')
 
-function isSystemDark() {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
+function readAppearanceMode() {
+  if (typeof window === 'undefined') return 'auto'
+  const v = localStorage.getItem(APPEARANCE_KEY)
+  return v === 'dark' || v === 'light' ? v : 'auto'
 }
 
-const followingSystem = computed(() => isDark.value === isSystemDark())
+function applyAppearance(mode) {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(APPEARANCE_KEY, mode)
+  window.dispatchEvent(new StorageEvent('storage', {
+    key: APPEARANCE_KEY,
+    newValue: mode,
+    storageArea: localStorage,
+  }))
+  appearanceMode.value = mode
+}
 
-function toggleAppearance() {
-  if (followingSystem.value) {
-    isDark.value = !isDark.value
-  } else {
-    isDark.value = isSystemDark()
+function cycleAppearance() {
+  const order = ['auto', 'dark', 'light']
+  const cur = readAppearanceMode()
+  applyAppearance(order[(order.indexOf(cur) + 1) % order.length])
+}
+
+// 多标签页同步：其他标签页切换主题时刷新当前模式指示
+function onStorage(e) {
+  if (e.key === APPEARANCE_KEY) appearanceMode.value = readAppearanceMode()
+}
+
+const themeModeLabel = computed(() => {
+  if (appearanceMode.value === 'auto') {
+    return `跟随设备（当前${isDark.value ? '暗色' : '浅色'}）· 点击切换`
   }
-}
+  return `固定${appearanceMode.value === 'dark' ? '暗色' : '浅色'} · 点击切换`
+})
 
 function onDocClick(e) {
   if (!e.target.closest('.k-nav, .nav-widgets-drawer')) {
@@ -91,12 +113,15 @@ function onKeydown(e) {
 
 onMounted(() => {
   hydrated.value = true
+  appearanceMode.value = readAppearanceMode()
+  window.addEventListener('storage', onStorage)
   window.addEventListener('scroll', onScroll, { passive: true })
   document.addEventListener('click', onDocClick)
   document.addEventListener('keydown', onKeydown)
   onScroll()
 })
 onBeforeUnmount(() => {
+  window.removeEventListener('storage', onStorage)
   window.removeEventListener('scroll', onScroll)
   document.removeEventListener('click', onDocClick)
   document.removeEventListener('keydown', onKeydown)
@@ -146,22 +171,16 @@ onBeforeUnmount(() => {
       <!-- 顶栏搜索：桌面端输入框 / 移动端搜索按钮 -->
       <NavSearch />
 
-      <!-- 浅色 / 暗色模式切换：跟随系统 ↔ 手动固定 -->
+      <!-- 主题三态切换：跟随设备 / 固定暗色 / 固定亮色 -->
       <button
         class="nav-theme-toggler"
-        :class="{ 'theme-follow': hydrated && followingSystem }"
+        :class="{ 'theme-follow': hydrated && appearanceMode === 'auto' }"
         type="button"
-        :aria-label="!hydrated ? '切换主题'
-          : followingSystem
-            ? `主题跟随系统（当前${isDark ? '暗色' : '浅色'}），点击固定为${isDark ? '浅色' : '暗色'}`
-            : `已固定为${isDark ? '暗色' : '浅色'}，点击恢复跟随系统`"
-        :title="!hydrated ? '切换主题'
-          : followingSystem
-            ? `跟随系统（当前${isDark ? '暗色' : '浅色'}）· 点击固定`
-            : `已固定为${isDark ? '暗色' : '浅色'} · 点击跟随系统`"
-        @click="toggleAppearance"
+        :aria-label="!hydrated ? '切换主题' : themeModeLabel"
+        :title="!hydrated ? '切换主题' : themeModeLabel"
+        @click="cycleAppearance"
       >
-        <KIcon :name="isDark ? 'sun' : 'moon'" />
+        <KIcon :name="isDark ? 'moon' : 'sun'" />
       </button>
 
       <!-- 移动端侧栏按钮：整合所有小工具 -->

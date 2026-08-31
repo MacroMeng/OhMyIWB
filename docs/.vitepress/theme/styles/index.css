@@ -338,7 +338,7 @@ ol {
   transition: all 0.3s;
 }
 
-/* 跟随系统指示：右上角紫色圆点 */
+/* 跟随设备（自动模式）指示：右上角紫色圆点 */
 .nav-theme-toggler.theme-follow::after {
   content: '';
   position: absolute;
