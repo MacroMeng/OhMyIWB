@@ -279,13 +279,18 @@ export default defineConfig({
       // 在 GitHub 仓库开启 Discussions 后，到 https://giscus.app 生成配置填入
       // repo 为空时评论区域自动隐藏
       giscus: {
-        repo: '',
-        repoId: '',
-        category: '',
-        categoryId: '',
+        repo: 'MacroMeng/OhMyIWB',
+        repoId: 'R_kgDOSacAqQ',
+        category: 'General',
+        categoryId: 'DIC_kwDOSacAqc4DEk5o',
         mapping: 'pathname',
+        // 布尔开关用 0/1（组件会转为 giscus 的 data-* 字符串 '0'/'1'）
+        strict: 1,
+        reactionsEnabled: 1,
+        emitMetadata: 0,
+        inputPosition: 'top',
         lang: 'zh-CN',
-        reactionsEnabled: true,
+        // 主题不在此配置：组件根据站点明暗模式动态设置并同步 giscus
       },
       // 顶部导航栏品牌
       brand: {
