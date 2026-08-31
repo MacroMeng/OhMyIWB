@@ -32,6 +32,15 @@
   --kratos-radius: 6px;
   --kratos-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
   --kratos-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  /* 导航栏（亮色：浅色毛玻璃条 + 深色文字） */
+  --kratos-nav-bg: rgba(255, 255, 255, 0.72);
+  --kratos-nav-text: #21242b;
+  --kratos-nav-text-muted: rgba(33, 36, 43, 0.72);
+  --kratos-nav-line: #21242b;
+  --kratos-nav-border: rgba(33, 36, 43, 0.22);
+  --kratos-nav-input-bg: rgba(33, 36, 43, 0.06);
+  --kratos-nav-hover-bg: rgba(33, 36, 43, 0.08);
+  --kratos-nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   --kratos-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans",
     Optima, "Microsoft Yahei", sans-serif;
 }
@@ -51,6 +60,15 @@ html.dark {
   --kratos-code-inline: #c4b5fd;
   --kratos-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
   --kratos-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.55);
+  /* 导航栏（暗色：近黑毛玻璃条 + 白字） */
+  --kratos-nav-bg: rgba(11, 11, 14, 0.72);
+  --kratos-nav-text: #ffffff;
+  --kratos-nav-text-muted: rgba(255, 255, 255, 0.78);
+  --kratos-nav-line: #ffffff;
+  --kratos-nav-border: rgba(255, 255, 255, 0.3);
+  --kratos-nav-input-bg: rgba(255, 255, 255, 0.08);
+  --kratos-nav-hover-bg: rgba(255, 255, 255, 0.1);
+  --kratos-nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 /* ------------------------------------------------------------
@@ -175,25 +193,25 @@ ol {
   right: 0;
   z-index: 1030;
   height: 60px;
-  background: var(--kratos-dark);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: var(--kratos-nav-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: var(--kratos-nav-shadow);
   transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* Banner 模式下：透明叠加在 Banner 上，白字 */
+/* Banner 模式下：透明叠加在 Banner 上，覆盖为白字白边（滚动后自动切回主题色） */
 .k-nav.banner-mode {
   background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   box-shadow: none;
-}
-
-.k-nav.banner-mode .nav-link {
-  color: #ffffff;
-}
-
-.k-nav.banner-mode .nav-link:hover,
-.k-nav.banner-mode .nav-link.active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.18);
+  --kratos-nav-text: #ffffff;
+  --kratos-nav-text-muted: rgba(255, 255, 255, 0.8);
+  --kratos-nav-line: #ffffff;
+  --kratos-nav-border: rgba(255, 255, 255, 0.35);
+  --kratos-nav-input-bg: rgba(255, 255, 255, 0.12);
+  --kratos-nav-hover-bg: rgba(255, 255, 255, 0.18);
 }
 
 .k-nav .nav-inner {
@@ -205,7 +223,7 @@ ol {
 .navbar-brand {
   display: flex;
   align-items: center;
-  color: #ffffff;
+  color: var(--kratos-nav-text);
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -213,7 +231,7 @@ ol {
 }
 
 .navbar-brand:hover {
-  color: #ffffff;
+  color: var(--kratos-nav-text);
 }
 
 .brand-logo {
@@ -235,7 +253,7 @@ ol {
   width: 22px;
   height: 2px;
   margin: 5px auto;
-  background: #ffffff;
+  background: var(--kratos-nav-line);
   border-radius: 2px;
   transition: transform 0.3s, opacity 0.3s;
 }
@@ -260,15 +278,15 @@ ol {
   padding: 0 14px;
   height: 60px;
   line-height: 60px;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--kratos-nav-text-muted);
   font-size: 15px;
   transition: color 0.3s, background 0.3s;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
+  color: var(--kratos-nav-text);
+  background: var(--kratos-nav-hover-bg);
 }
 
 .has-dropdown:hover .dropdown {
@@ -311,10 +329,10 @@ ol {
   height: 34px;
   margin-left: 10px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--kratos-nav-border);
   border-radius: 50%;
   background: none;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--kratos-nav-text-muted);
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -322,7 +340,7 @@ ol {
 .nav-theme-toggler:hover {
   border-color: var(--kratos-primary);
   background: rgba(124, 58, 237, 0.18);
-  color: #ffffff;
+  color: var(--kratos-nav-text);
 }
 
 .nav-theme-toggler .kicon {
@@ -358,22 +376,22 @@ ol {
   width: 200px;
   height: 34px;
   padding: 0 12px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid var(--kratos-nav-border);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--kratos-nav-input-bg);
   transition: border-color 0.3s, background 0.3s;
 }
 
 .nav-search-input:focus-within {
   border-color: var(--kratos-primary);
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--kratos-nav-input-bg);
 }
 
 .nav-search-input .kicon {
   width: 15px;
   height: 15px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--kratos-nav-text-muted);
   flex-shrink: 0;
 }
 
@@ -383,13 +401,13 @@ ol {
   border: none;
   outline: none;
   background: transparent;
-  color: #ffffff;
+  color: var(--kratos-nav-text);
   font-size: 13px;
   font-family: inherit;
 }
 
 .nav-search-input input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--kratos-nav-text-muted);
 }
 
 /* 移动端搜索按钮（默认隐藏，<=991.98px 时显示） */
@@ -401,10 +419,10 @@ ol {
   height: 34px;
   margin-left: 10px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--kratos-nav-border);
   border-radius: 50%;
   background: none;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--kratos-nav-text-muted);
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -413,7 +431,7 @@ ol {
 .nav-search-toggler.open {
   border-color: var(--kratos-primary);
   background: rgba(124, 58, 237, 0.18);
-  color: #ffffff;
+  color: var(--kratos-nav-text);
 }
 
 .nav-search-toggler .kicon {
@@ -623,9 +641,9 @@ ol {
   margin-left: 8px;
   padding: 6px 12px;
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--kratos-nav-border);
   border-radius: 20px;
-  color: #ffffff;
+  color: var(--kratos-nav-text);
   font-size: 13px;
   font-family: inherit;
   cursor: pointer;
@@ -2017,7 +2035,9 @@ ol {
     display: none;
     flex-direction: column;
     align-items: stretch;
-    background: var(--kratos-dark);
+    background: var(--kratos-nav-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     margin: 0;
     padding: 6px 0;
@@ -2042,17 +2062,17 @@ ol {
     display: block;
     position: static;
     box-shadow: none;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--kratos-nav-hover-bg);
     padding: 0;
   }
 
   .dropdown li a {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--kratos-nav-text-muted);
   }
 
   .dropdown li a:hover {
     background: none;
-    color: #ffffff;
+    color: var(--kratos-nav-text);
   }
 
   /* 瀑布流：平板 2 列 */
@@ -2110,9 +2130,10 @@ ol {
     columns: 1;
   }
 
-  /* 窄屏：侧栏 / 目录按钮只保留图标 */
+  /* 窄屏：侧栏 / 目录按钮只保留图标，隐藏文字与数字徽标避免 34px 圆钮溢出 */
   .nav-widgets-toggler .widgets-text,
-  .nav-toc-toggler .toc-text {
+  .nav-toc-toggler .toc-text,
+  .nav-toc-toggler .toc-count {
     display: none;
   }
 
@@ -2139,9 +2160,9 @@ ol {
   margin-left: 8px;
   padding: 6px 12px;
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--kratos-nav-border);
   border-radius: 20px;
-  color: #ffffff;
+  color: var(--kratos-nav-text);
   font-size: 13px;
   font-family: inherit;
   cursor: pointer;
