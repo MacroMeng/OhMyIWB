@@ -2075,6 +2075,11 @@ ol {
     color: var(--kratos-nav-text);
   }
 
+  /* 仅首页顶部（Banner 模式）：深色 Banner 上白色毛玻璃看不清，下拉强制深色毛玻璃白字 */
+  .k-nav.banner-mode .navbar-nav {
+    background: rgba(11, 11, 14, 0.88);
+  }
+
   /* 瀑布流：平板 2 列 */
   .post-list .masonry {
     columns: 2;
