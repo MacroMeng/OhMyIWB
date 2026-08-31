@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00a2ff"/>
+      <stop offset="100%" stop-color="#2f6fed"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <g fill="#ffffff" fill-opacity="0.15">
+    <circle cx="520" cy="80" r="90"/>
+    <circle cx="90" cy="300" r="120"/>
+  </g>
+  <text x="320" y="200" text-anchor="middle" font-family="'Segoe UI','Microsoft Yahei',sans-serif" font-size="34" font-weight="700" fill="#ffffff">Kratos</text>
+  <text x="320" y="236" text-anchor="middle" font-family="'Segoe UI','Microsoft Yahei',sans-serif" font-size="15" fill="#ffffff" fill-opacity="0.85">Hello World</text>
+</svg>

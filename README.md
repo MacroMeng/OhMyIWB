@@ -1,6 +1,6 @@
-<img src="posts/public/assets/images/pstomi.webp" alt="OMI poster" >
+<img src="docs/public/assets/images/pstomi.webp" alt="OMI poster" >
 
-<h1><img src="posts/public/assets/images/omi.png" width=64 align=left>OhMyIWB · 智在知互 思于识通</h1>
+<h1><img src="docs/public/assets/images/omi.webp" width=64 align=left>OhMyIWB · 智在知互 思于识通</h1>
 
 OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是每天，不过没有就是没活了）分享 IWB 小知识、软件、更新等内容。
 
@@ -26,4 +26,4 @@ OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是
 
 OhMyIWB 欢迎任何人参与讨论。您可以先在智教联盟论坛中分享想法、得到反馈，也可以在那里向项目启动者 @MacroMeng (STCN@MacrosMeng) 提请申请。若您在社区中声望十足（？），可以直接获得 Collaborator 权限。即使您是新朋友，我们也欢迎看到您的表现——按照标准流程提出 Pull Request 即可。
 
-**如何撰稿？** 进入项目 /posts/daily 或 /posts/thinklog 目录，按照既有的格式（`序号.月日.md`）命名撰写即可。标签可以随意创造。
+**如何撰稿？** 进入项目 /docs/posts/daily 或 /docs/posts/thinklog 目录，按照既有的格式（`序号.月日.md`）命名撰写即可。标签可以随意创造。
