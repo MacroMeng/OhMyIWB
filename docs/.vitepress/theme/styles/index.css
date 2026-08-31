@@ -1,3 +1,9 @@
+/* 尚古明体（正文内容） */
+@import url("https://fontsapi.zeoseven.com/165/main/result.css");
+/* 尚古黑体（标题类） */
+@import url("https://fontsapi.zeoseven.com/166/main/result.css");
+
+
 /* ============================================================
    Kratos for VitePress 主题样式
    参考 Kratos WordPress 主题 (Seaton Jiang) 设计
@@ -41,8 +47,13 @@
   --kratos-nav-input-bg: rgba(33, 36, 43, 0.06);
   --kratos-nav-hover-bg: rgba(33, 36, 43, 0.08);
   --kratos-nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --kratos-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans",
-    Optima, "Microsoft Yahei", sans-serif;
+  /* 正文/内容字体：尚古明体（加载失败时回退本地衬线字体） */
+  --kratos-font-serif: "Shanggu Serif VF", "Noto Serif SC", "Source Han Serif SC",
+    "Songti SC", SimSun, serif;
+  /* 标题字体：尚古黑体（加载失败时回退本地无衬线字体） */
+  --kratos-font-sans: "Shanggu Sans VF", "Noto Sans SC", "Source Han Sans SC",
+    "PingFang SC", "Microsoft Yahei", sans-serif;
+  --kratos-font: var(--kratos-font-serif);
 }
 
 /* 暗色模式（VitePress 在 <html> 上添加 .dark class） */
@@ -90,11 +101,30 @@ body {
   overflow-x: hidden;
   background: var(--kratos-bg);
   color: var(--kratos-text);
-  font-weight: 350;
+  font-weight: normal;
   font-size: 16px;
   font-family: var(--kratos-font);
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
+}
+
+/* 标题类字体：尚古黑体（标题、Banner、卡片、侧栏小部件、目录等） */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.banner .introduce .title,
+.article-head .article-title,
+.list-head .search-title,
+.post-list .masonry .a-post .title,
+.sidebar .widget .title,
+.widget-posts .post-title,
+.nav-toc-title,
+.drawer-title,
+.navbar-brand .brand-name {
+  font-family: var(--kratos-font-sans);
 }
 
 a {
