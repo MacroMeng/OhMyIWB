@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useData } from 'vitepress'
+import { useLazyImages } from './composables/lazyImages'
 import NavBar from './components/NavBar.vue'
 import ProgressBar from './components/ProgressBar.vue'
 import Banner from './components/Banner.vue'
@@ -12,6 +13,7 @@ import FooterBar from './components/FooterBar.vue'
 import ToolBox from './components/ToolBox.vue'
 
 const { page, frontmatter } = useData()
+useLazyImages()
 
 // 首页（layout: home）显示文章卡片列表
 const isHome = computed(() => frontmatter.value.layout === 'home')

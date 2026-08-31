@@ -6,6 +6,7 @@ const { theme, isDark } = useData()
 const route = useRoute()
 
 const giscusRef = ref(null)
+let observer = null
 
 // Giscus 配置项（从 kratos.giscus 读取），repo 为空则不启用评论
 const options = computed(() => theme.value.kratos?.giscus || {})
@@ -45,6 +46,29 @@ function loadGiscus() {
   container.appendChild(script)
 }
 
+// 评论区接近视口（提前 400px）才注入 giscus 脚本，首屏不下载第三方资源
+function observeAndLoad() {
+  const container = giscusRef.value
+  if (!container || !enabled.value) return
+  container.innerHTML = ''
+  observer?.disconnect()
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          observer?.disconnect()
+          observer = null
+          loadGiscus()
+        }
+      },
+      { rootMargin: '400px 0px' },
+    )
+    observer.observe(container)
+  } else {
+    loadGiscus()
+  }
+}
+
 // 主题切换：通过 postMessage 让 giscus 无刷新跟随明暗模式
 function syncGiscusTheme() {
   const iframe = document.querySelector('iframe.giscus-frame')
@@ -60,14 +84,14 @@ function syncGiscusTheme() {
 }
 
 onMounted(() => {
-  if (enabled.value) loadGiscus()
+  observeAndLoad()
 })
 
-// SPA 内部路由切换时，重建评论（对应新页面路径）
+// SPA 内部路由切换时，重建评论（对应新页面路径），并重新观察滚动位置
 watch(
   () => route.path,
   () => {
-    if (enabled.value) loadGiscus()
+    observeAndLoad()
   },
 )
 
@@ -84,6 +108,8 @@ watch(isDark, () => {
 })
 
 onBeforeUnmount(() => {
+  observer?.disconnect()
+  observer = null
   const container = giscusRef.value
   if (container) container.innerHTML = ''
 })

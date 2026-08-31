@@ -1,8 +1,5 @@
-/* 尚古明体（正文内容） */
-@import url("https://fontsapi.zeoseven.com/165/main/result.css");
-/* 尚古黑体（标题类） */
-@import url("https://fontsapi.zeoseven.com/166/main/result.css");
-
+/* 尚古字体已改为在 <head> 中并行加载（config.mjs head 配置），
+   此处不再使用 @import（避免与本站样式串行下载） */
 
 /* ============================================================
    Kratos for VitePress 主题样式

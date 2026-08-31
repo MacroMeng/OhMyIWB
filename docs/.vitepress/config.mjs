@@ -249,6 +249,16 @@ export default defineConfig({
       md.use(markdownItTaskLists, { enabled: true })
       // 启用脚注渲染（[^1]），文章中的参考资料脚注依赖此插件
       md.use(markdownItFootnote)
+      // 正文图片懒加载 + 异步解码（浏览器对视口内图片仍会立即加载，不影响首屏）
+      const defaultImageRender = md.renderer.rules.image
+      md.renderer.rules.image = (tokens, idx, opts, env, self) => {
+        const token = tokens[idx]
+        if (!token.attrGet('loading')) token.attrSet('loading', 'lazy')
+        if (!token.attrGet('decoding')) token.attrSet('decoding', 'async')
+        return defaultImageRender
+          ? defaultImageRender(tokens, idx, opts, env, self)
+          : self.renderToken(tokens, idx, opts)
+      }
     },
   },
   // 规避 Windows 中文路径下 realpathSync 规范化路径与 Rollup facadeModuleId 不一致导致的构建报错
@@ -261,6 +271,10 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#7c3aed' }],
     ['meta', { name: 'format-detection', content: 'telphone=no, date=no, address=no, email=no' }],
     ['link', { rel: 'icon', href: '/assets/omi.svg' }],
+    // 尚古字体：preconnect 提前建连 + 并行加载（替代 index.css 内的 @import，避免串行等待）
+    ['link', { rel: 'preconnect', href: 'https://fontsapi.zeoseven.com', crossorigin: 'anonymous' }],
+    ['link', { rel: 'stylesheet', href: 'https://fontsapi.zeoseven.com/165/main/result.css' }],
+    ['link', { rel: 'stylesheet', href: 'https://fontsapi.zeoseven.com/166/main/result.css' }],
   ],
 
   // 构建完成后生成 RSS 订阅源（feed.xml / feed.rss）：buildEnd 用完整 siteConfig 覆盖写入 outDir
