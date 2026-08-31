@@ -28,7 +28,7 @@ const about = computed(() => theme.value.kratos?.about || {})
           <p class="copyright">{{ footer.copyright }}</p>
           <p class="theme-info">
             Theme <a href="https://github.com/seatonjiang/kratos" target="_blank" rel="nofollow">Kratos</a> Made By
-            <a href="https://seatonjiang.com" target="_blank" rel="nofollow">Seaton Jiang</a>
+            <a href="https://blog.edicdn.eu.org" target="_blank" rel="nofollow">MKStoler1024</a>
           </p>
           <p v-if="footer.icp" class="icp">
             <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">{{ footer.icp }}</a>
