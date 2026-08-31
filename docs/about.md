@@ -8,7 +8,7 @@ title: 关于
 
 OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是每天，不过没有就是没活了）分享 IWB 小知识、软件、更新等内容。
 
-- 在这里获取 [RSS 订阅](https://ohmyiwb.mm666.qzz.io/feed.xml)
+- 在这里获取 [RSS 订阅](https://ohmyiwb.mm666.qzz.io/feed.xml)（备用地址：[feed.rss](https://ohmyiwb.mm666.qzz.io/feed.rss)）
 - 直接访问 [OhMyIWB 官网](https://ohmyiwb.mm666.qzz.io)
 - 在[智教联盟论坛](https://forum.smart-teach.cn)的[#1783](https://forum.smart-teach.cn/d/1783)中阅读并分享想法
 

@@ -92,7 +92,7 @@ function resolveSiteUrl(kratos) {
   return ''
 }
 
-// ===== 生成 RSS 订阅源（feed.xml） =====
+// ===== 生成 RSS 订阅源（feed.xml / feed.rss） =====
 function generateRss(siteConfig, targetDir, { warnMissingUrl = true } = {}) {
   // buildEnd 传入的是 VitePress 内部 config 对象，themeConfig 可能在顶层或 site 下
   const kratos =
@@ -105,7 +105,7 @@ function generateRss(siteConfig, targetDir, { warnMissingUrl = true } = {}) {
   if (!siteUrl && warnMissingUrl) {
     console.warn(
       '[kratos] 未检测到站点 URL（可配置 kratos.siteUrl / package.json 的 homepage / 环境变量 SITE_URL），' +
-        'feed.xml 将使用相对链接，建议配置以获得最佳订阅体验。',
+        'feed.xml / feed.rss 将使用相对链接，建议配置以获得最佳订阅体验。',
     )
   }
   // 有绝对 URL 时生成绝对链接，否则回退为站点相对链接
@@ -182,14 +182,17 @@ ${items
 </rss>
 `
   fs.mkdirSync(targetDir, { recursive: true })
-  fs.writeFileSync(path.join(targetDir, 'feed.xml'), feed, 'utf-8')
-  console.log(`[kratos] RSS 订阅源已生成：feed.xml（${items.length} 篇文章）`)
+  // 同时提供 feed.xml / feed.rss 两个订阅入口，内容一致
+  for (const fileName of ['feed.xml', 'feed.rss']) {
+    fs.writeFileSync(path.join(targetDir, fileName), feed, 'utf-8')
+  }
+  console.log(`[kratos] RSS 订阅源已生成：feed.xml / feed.rss（${items.length} 篇文章）`)
 }
 
 // ===== 站点 public 目录 =====
 // 文章中的 /assets/... 引用（如 <img src="/assets/images/omi.webp">）直接由
 // VitePress 原生 public 机制解析：docs/public 下的文件在构建时复制到 dist 根目录，
-// dev 时按根路径提供。站点资源（图片、feed.xml 等）统一放在 docs/public 并提交到 Git。
+// dev 时按根路径提供。站点资源（图片、feed.xml / feed.rss 等）统一放在 docs/public 并提交到 Git。
 const sitePublicDir = path.resolve(process.cwd(), 'docs', 'public')
 // dev 模式下 buildEnd 不会执行，这里同步生成一份到 docs/public：
 // dev 服务器可直接访问 /feed.xml，build 时 VitePress 也会随 public 目录自动复制进 dist
@@ -260,7 +263,7 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/assets/omi.svg' }],
   ],
 
-  // 构建完成后生成 RSS 订阅源（feed.xml）：buildEnd 用完整 siteConfig 覆盖写入 outDir
+  // 构建完成后生成 RSS 订阅源（feed.xml / feed.rss）：buildEnd 用完整 siteConfig 覆盖写入 outDir
   buildEnd(siteConfig) {
     generateRss(siteConfig, siteConfig.outDir)
   },
