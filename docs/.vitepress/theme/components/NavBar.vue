@@ -54,9 +54,24 @@ function goToHeading(id) {
   scrollTo(id)
 }
 
-// 切换浅色 / 暗色模式（VitePress 自动同步 html.dark 与 localStorage）
+// 切换主题：跟随系统 ↔ 手动固定
+// - 当前显示与设备一致（跟随系统）→ 点击固定为相反主题
+// - 当前已固定 → 点击恢复跟随系统
+// VueUse useDark 的 setter 内置"智能 auto"：写入值与系统一致时自动回写 auto，无需直接操作 localStorage
+const hydrated = ref(false)
+
+function isSystemDark() {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
+const followingSystem = computed(() => isDark.value === isSystemDark())
+
 function toggleAppearance() {
-  isDark.value = !isDark.value
+  if (followingSystem.value) {
+    isDark.value = !isDark.value
+  } else {
+    isDark.value = isSystemDark()
+  }
 }
 
 function onDocClick(e) {
@@ -75,6 +90,7 @@ function onKeydown(e) {
 }
 
 onMounted(() => {
+  hydrated.value = true
   window.addEventListener('scroll', onScroll, { passive: true })
   document.addEventListener('click', onDocClick)
   document.addEventListener('keydown', onKeydown)
@@ -130,12 +146,19 @@ onBeforeUnmount(() => {
       <!-- 顶栏搜索：桌面端输入框 / 移动端搜索按钮 -->
       <NavSearch />
 
-      <!-- 浅色 / 暗色模式切换 -->
+      <!-- 浅色 / 暗色模式切换：跟随系统 ↔ 手动固定 -->
       <button
         class="nav-theme-toggler"
+        :class="{ 'theme-follow': hydrated && followingSystem }"
         type="button"
-        :aria-label="isDark ? '切换到浅色模式' : '切换到暗色模式'"
-        :title="isDark ? '切换到浅色模式' : '切换到暗色模式'"
+        :aria-label="!hydrated ? '切换主题'
+          : followingSystem
+            ? `主题跟随系统（当前${isDark ? '暗色' : '浅色'}），点击固定为${isDark ? '浅色' : '暗色'}`
+            : `已固定为${isDark ? '暗色' : '浅色'}，点击恢复跟随系统`"
+        :title="!hydrated ? '切换主题'
+          : followingSystem
+            ? `跟随系统（当前${isDark ? '暗色' : '浅色'}）· 点击固定`
+            : `已固定为${isDark ? '暗色' : '浅色'} · 点击跟随系统`"
         @click="toggleAppearance"
       >
         <KIcon :name="isDark ? 'sun' : 'moon'" />

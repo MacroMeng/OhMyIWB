@@ -322,6 +322,7 @@ ol {
 
 /* 浅色 / 暗色模式切换按钮 */
 .nav-theme-toggler {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -335,6 +336,18 @@ ol {
   color: var(--kratos-nav-text-muted);
   cursor: pointer;
   transition: all 0.3s;
+}
+
+/* 跟随系统指示：右上角紫色圆点 */
+.nav-theme-toggler.theme-follow::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--kratos-primary);
 }
 
 .nav-theme-toggler:hover {
