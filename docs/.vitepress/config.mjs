@@ -190,18 +190,7 @@ ${items
   console.log(`[kratos] RSS 订阅源已生成：feed.xml / feed.rss（${items.length} 篇文章）`)
 }
 
-// ===== 站点 public 目录 =====
-// 文章中的 /assets/... 引用（如 <img src="/assets/images/omi.webp">）直接由
-// VitePress 原生 public 机制解析：docs/public 下的文件在构建时复制到 dist 根目录，
-// dev 时按根路径提供。站点资源（图片、feed.xml / feed.rss 等）统一放在 docs/public 并提交到 Git。
-const sitePublicDir = path.resolve(process.cwd(), 'docs', 'public')
-// dev 模式下 buildEnd 不会执行，这里同步生成一份到 docs/public：
-// dev 服务器可直接访问 /feed.xml，build 时 VitePress 也会随 public 目录自动复制进 dist
-generateRss(
-  { title: SITE_TITLE, description: SITE_DESC },
-  sitePublicDir,
-  { warnMissingUrl: false },
-)
+
 
 // ===== 根据 posts 目录结构动态生成顶部导航 =====
 // 每个含 index.md 的一级子目录生成一项，点击进入该目录的列表页（/posts/<dir>/）
