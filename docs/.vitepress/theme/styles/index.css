@@ -2345,9 +2345,32 @@ ol {
 
 .reading-progress-bar {
   height: 100%;
+
   width: 0;
   background: linear-gradient(90deg, var(--kratos-primary), #a78bfa);
   border-radius: 0 2px 2px 0;
   box-shadow: 0 0 6px rgba(124, 58, 237, 0.5);
   transition: width 0.1s linear;
+}
+
+/* ===== 黑幕（>!文字!<）：点击后才显示 ===== */
+.spoiler {
+  position: relative;
+  cursor: pointer;
+  padding: 0 2px;
+  border-radius: 4px;
+  background: var(--kratos-text);
+  color: transparent;
+  user-select: none;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+.spoiler:focus-visible {
+  outline: 2px solid var(--kratos-primary);
+  outline-offset: 2px;
+}
+.spoiler.clicked {
+  color: inherit;
+  background: transparent;
+  cursor: text;
+  user-select: text;
 }

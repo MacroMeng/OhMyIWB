@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import markdownItTaskLists from 'markdown-it-task-lists'
 import markdownItFootnote from 'markdown-it-footnote'
+import { spoiler } from './lib/md-spoiler.mjs'
 
 // 站点基本信息（RSS 生成与站点配置共用，避免两处维护）
 const SITE_TITLE = 'OhMyIWB'
@@ -249,6 +250,8 @@ export default defineConfig({
       md.use(markdownItTaskLists, { enabled: true })
       // 启用脚注渲染（[^1]），文章中的参考资料脚注依赖此插件
       md.use(markdownItFootnote)
+      // 黑幕语法：>!文字!<（点击后才显示）
+      md.use(spoiler)
       // 正文图片懒加载 + 异步解码（浏览器对视口内图片仍会立即加载，不影响首屏）
       const defaultImageRender = md.renderer.rules.image
       md.renderer.rules.image = (tokens, idx, opts, env, self) => {
