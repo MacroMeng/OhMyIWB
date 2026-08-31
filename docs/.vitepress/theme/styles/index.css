@@ -19,14 +19,14 @@
 :root {
   --kratos-primary: #7c3aed;
   --kratos-primary-hover: #6d28d9;
-  --kratos-dark: #2b2440;
-  --kratos-bg: #f6f4fb;
+  --kratos-dark: #21242b;
+  --kratos-bg: #ffffff;
   --kratos-card: #ffffff;
-  --kratos-border: #e6e1f4;
+  --kratos-border: #e5e7eb;
   --kratos-text: #333333;
   --kratos-text-light: #999999;
-  --kratos-bg-soft: #faf8fe;
-  --kratos-bg-muted: #efeaf9;
+  --kratos-bg-soft: #f8f8fa;
+  --kratos-bg-muted: #f0f0f3;
   --kratos-text-strong: #111111;
   --kratos-code-inline: #6d28d9;
   --kratos-radius: 6px;
@@ -39,14 +39,14 @@
 /* 暗色模式（VitePress 在 <html> 上添加 .dark class） */
 html.dark {
   color-scheme: dark;
-  --kratos-dark: #191527;
-  --kratos-bg: #161322;
-  --kratos-card: #201b33;
-  --kratos-border: #322a4d;
+  --kratos-dark: #0e0e11;
+  --kratos-bg: #0b0b0e;
+  --kratos-card: #16161a;
+  --kratos-border: #2a2a31;
   --kratos-text: #d4d8dd;
   --kratos-text-light: #8b929a;
-  --kratos-bg-soft: #1c1729;
-  --kratos-bg-muted: #2a2440;
+  --kratos-bg-soft: #121216;
+  --kratos-bg-muted: #1d1d23;
   --kratos-text-strong: #ffffff;
   --kratos-code-inline: #c4b5fd;
   --kratos-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
