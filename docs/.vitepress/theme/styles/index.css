@@ -223,10 +223,10 @@ ol {
 
 .navbar-toggler {
   display: none;
-  margin-left: auto;
+  margin-left: 0;
   background: none;
   border: none;
-  padding: 6px;
+  padding: 4px;
   cursor: pointer;
 }
 
@@ -2065,9 +2065,9 @@ ol {
     margin-bottom: 18px;
   }
 
-  /* 移动端顶栏：显示搜索按钮，隐藏桌面搜索框 */
+  /* 移动端顶栏：右侧按钮组整体靠右；汉堡菜单移到品牌左侧（基础样式 margin-left:0） */
   .nav-search {
-    margin-left: 0;
+    margin-left: auto;
   }
 
   .nav-search-toggler {
