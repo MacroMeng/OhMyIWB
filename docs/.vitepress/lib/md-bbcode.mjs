@@ -12,14 +12,21 @@
  *   - 警告框 D 系：  [DSUCCESS] [DNOTICE] [DWARNING] [DERROR]
  *   - 网盘链接：     [cloud type=网盘类型 title=标题 url=链接]提取码[/cloud]
  *   - 列表：         [list][*]项目一[*]项目二[/list]
+ *   - 图片：         [upl-image-preview uuid=… url=… alt=… thumbnail_url=…]（自闭合）
  *
  * 实现分两层：
  *   1. block 规则：拦截以 `[块级标签...]` 开头的独立行，收集到 `[/标签]` 结束，
  *      内容交给 renderer 递归渲染（支持内部嵌套 Markdown 与 BBCode）；
- *   2. inline 规则：解析段落中的 `[b]...[b]` 等行内标签。
+ *      自闭合标签（SELF_CLOSING_TAGS）无需闭合标签，独占一行即成块；
+ *   2. inline 规则：解析段落中的 `[b]...[b]` 等行内标签，
+ *      以及夹在文字中间的自闭合标签。
  */
 export function bbcode(md) {
-  md.block.ruler.before('paragraph', 'bbcode_block', bbcodeBlock)
+  // alt 让 BBCode 块能中断段落：紧跟在文字行下方的 `[AINFO]`、
+  // 独占一行的 `[upl-image-preview ...]` 等无需空行分隔即成块
+  md.block.ruler.before('paragraph', 'bbcode_block', bbcodeBlock, {
+    alt: ['paragraph', 'blockquote', 'list'],
+  })
   md.inline.ruler.before('emphasis', 'bbcode_inline', bbcodeInline)
 
   md.renderer.rules.bbcode_block = (tokens, idx, options, env, self) =>
@@ -42,6 +49,15 @@ const BLOCK_TAGS = [
 
 // 行内标签
 const INLINE_TAGS = ['b', 'i', 's', 'del', 'color', 'size', 'url', 'email']
+
+// 自闭合标签：没有闭合标签，形如 [upl-image-preview uuid=… url=…]
+// 既可独占一行（作为块级图片），也可夹在文字中间（作为行内图片）
+const SELF_CLOSING_TAGS = ['upl-image-preview']
+
+const SELF_CLOSING_RE = new RegExp(
+  '^\\[(' + SELF_CLOSING_TAGS.join('|') + ')((?:\\s[^\\]\\n]*)?)\\]',
+  'i',
+)
 
 // ===== 工具函数 =====
 
@@ -79,6 +95,8 @@ function normalizeSize(s) {
 }
 
 // 解析开标签属性：支持 [quote=作者] 与 [cloud type=x title=y url=z] 两种形态
+// 键名允许下划线与连字符（如 thumbnail_url）；未加引号的值可以包含空格，
+// 以「下一个 键=」或行尾作为终止边界（如 alt=my photo.png url=...）
 function parseAttrs(attrStr) {
   const s = String(attrStr || '').trim()
   if (!s) return {}
@@ -86,12 +104,26 @@ function parseAttrs(attrStr) {
     return { value: s.slice(1).trim().replace(/^["']|["']$/g, '') }
   }
   const attrs = {}
-  const re = /([A-Za-z0-9]+)\s*=\s*("[^"]*"|'[^']*'|[^\s]+)/g
+  const re =
+    /([A-Za-z_][\w-]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s].*?))(?=\s+[A-Za-z_][\w-]*\s*=|\s*$)/g
   let m
   while ((m = re.exec(s))) {
-    attrs[m[1].toLowerCase()] = m[2].replace(/^["']|["']$/g, '')
+    const value = m[2] ?? m[3] ?? m[4] ?? ''
+    attrs[m[1].toLowerCase()] = value.trim()
   }
   return attrs
+}
+
+// 论坛模板里未被替换的占位符（{TEXT?}、{URL?} 等）视为空值
+function cleanPlaceholder(v) {
+  const s = String(v ?? '').trim()
+  return /^\{.*\}$/.test(s) ? '' : s
+}
+
+// 图片尺寸属性：仅接受正整数（像素），否则忽略
+function safeDimension(v) {
+  const s = cleanPlaceholder(v)
+  return /^\d+$/.test(s) ? s : ''
 }
 
 // ACUSTOM：[red,black,green,内容] → { font, bg, border, message }
@@ -280,6 +312,23 @@ function alertHtml({ cls, icon, title, body, style }) {
 function bbcodeBlock(state, startLine, endLine, silent) {
   const start = state.bMarks[startLine] + state.tShift[startLine]
   const firstLine = state.src.slice(start, state.eMarks[startLine])
+
+  // 自闭合标签独占一行时作为块级元素处理（[upl-image-preview ...]）
+  const sc = firstLine.match(SELF_CLOSING_RE)
+  if (sc && firstLine.slice(sc[0].length).trim() === '') {
+    if (silent) return true
+    const token = state.push('bbcode_block', '', 0)
+    token.meta = {
+      tag: sc[1].toLowerCase(),
+      attr: sc[2],
+      content: '',
+      selfClosing: true,
+    }
+    token.map = [startLine, startLine + 1]
+    state.line = startLine + 1
+    return true
+  }
+
   const m = firstLine.match(/^\[([A-Za-z][A-Za-z0-9]*)([^\]]*)\](.*)$/)
   if (!m) return false
   const tag = m[1].toLowerCase()
@@ -324,6 +373,22 @@ function bbcodeBlock(state, startLine, endLine, silent) {
 // ===== 行内规则 =====
 function bbcodeInline(state, silent) {
   const src = state.src.slice(state.pos)
+
+  // 自闭合标签（无闭合标签，出现在文字中间时按行内图片渲染）
+  const sc = src.match(SELF_CLOSING_RE)
+  if (sc) {
+    if (silent) return true
+    const token = state.push('bbcode_inline', '', 0)
+    token.meta = {
+      tag: sc[1].toLowerCase(),
+      attr: sc[2],
+      content: '',
+      selfClosing: true,
+    }
+    state.pos += sc[0].length
+    return true
+  }
+
   const m = src.match(
     /^\[(b|i|s|del|color|size|url|email)(?:=([^\]]*?))?\]([^\n]*?)\[\/\1\]/i,
   )
@@ -338,9 +403,51 @@ function bbcodeInline(state, silent) {
   return true
 }
 
+/**
+ * 图片渲染：[upl-image-preview uuid=… url=… alt=… thumbnail_url=…]
+ *
+ * 对齐论坛 fof/upload 的 image-preview 模板：缩略图外层包裹指向原图的链接。
+ * 与论坛的差异：
+ *   · 论坛输出 title 属性，本站省略（alt 已足够，避免悬浮重复提示）；
+ *   · alt 为空（论坛占位符 {TEXT?} 未被替换）时，图片按装饰性处理，
+ *     并给链接补 aria-label，避免出现「无可访问名称的链接」；
+ *   · uuid 保留在 data-uuid 上，便于日后接入灯箱等增强功能。
+ * @param {boolean} block 是否独占一行（块级）
+ */
+function renderImagePreview(attrs, block) {
+  const url = sanitizeHref(cleanPlaceholder(attrs.url))
+  const thumb = sanitizeHref(cleanPlaceholder(attrs.thumbnail_url)) || url
+  if (!thumb) return ''
+
+  const alt = cleanPlaceholder(attrs.alt)
+  const uuid = cleanPlaceholder(attrs.uuid)
+  const width = safeDimension(attrs.width)
+  const height = safeDimension(attrs.height)
+
+  const img =
+    '<img class="bbcode-image' + (block ? '' : ' bbcode-image-inline') + '"' +
+    ' src="' + escAttr(thumb) + '"' +
+    ' alt="' + escAttr(alt) + '"' +
+    (uuid ? ' data-uuid="' + escAttr(uuid) + '"' : '') +
+    (width ? ' width="' + width + '"' : '') +
+    (height ? ' height="' + height + '"' : '') +
+    ' loading="lazy" decoding="async">'
+
+  // 有原图地址时包一层链接，点击可查看原图；缩略图与原图相同也保留链接（等同放大查看）
+  const inner = url
+    ? '<a class="bbcode-image-link" href="' + escAttr(url) + '"' +
+      ' target="_blank" rel="noopener noreferrer"' +
+      (alt ? '' : ' aria-label="查看原图"') + '>' + img + '</a>'
+    : img
+
+  return block ? '<span class="bbcode-image-block">' + inner + '</span>' : inner
+}
+
 // ===== 行内渲染 =====
 function renderInline(md, meta, options, env) {
-  const { tag, attr, content } = meta
+  const { tag, attr, content, selfClosing } = meta
+  if (selfClosing) return renderImagePreview(parseAttrs(attr), false)
+
   const inner = md.renderInline(content, env)
 
   switch (tag) {
@@ -385,8 +492,10 @@ function renderInline(md, meta, options, env) {
 
 // ===== 块级渲染 =====
 function renderBlock(md, meta, options, env) {
-  const { tag, attr, content } = meta
+  const { tag, attr, content, selfClosing } = meta
   const attrs = parseAttrs(attr)
+  if (selfClosing) return renderImagePreview(attrs, true)
+
   const inner = () => md.render(content, env)
   const titleFromAttrs = attrs.title
 

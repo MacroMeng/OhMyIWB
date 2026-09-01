@@ -43,6 +43,7 @@
    3. 警告框（A / B / C / D 四系）
    4. 网盘链接 [cloud]
    5. 列表 [list]
+   6. 图片 [upl-image-preview]
    ============================================================ */
 
 /* ---------- 1. 文本相关 ---------- */
@@ -434,6 +435,68 @@ html.dark .bbcode-cloud-btn:hover { color: var(--kratos-dark) !important; }
   height: 5px;
   border-radius: 50%;
   background: var(--kratos-primary);
+}
+
+/* ---------- 6. 图片 [upl-image-preview] ---------- */
+/* 论坛 fof/upload 的 image-preview 模板：缩略图 + 指向原图的链接。
+   插件在标签独占一行时额外包一层 .bbcode-image-block（用 span 保证
+   出现在段落内部时 HTML 依然合法），使图片独占一行并居中。 */
+.bbcode-image-block {
+  display: block;
+  margin: 18px 0;
+  text-align: center;
+}
+
+.bbcode-image-link {
+  display: inline-block;
+  max-width: 100%;
+  border-bottom: none;
+  line-height: 0;
+}
+
+.vp-doc .bbcode-image-link:hover {
+  border-bottom: none;
+}
+
+/* 覆盖 .vp-doc img 的 margin，间距统一由 .bbcode-image-block 控制 */
+.vp-doc .bbcode-image {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: var(--kratos-radius);
+  box-shadow: var(--kratos-shadow);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.bbcode-image-link:hover .bbcode-image {
+  box-shadow: var(--kratos-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.bbcode-image-link:focus-visible {
+  outline: 2px solid var(--kratos-primary);
+  outline-offset: 3px;
+  border-radius: var(--kratos-radius);
+}
+
+/* 夹在文字中间的图片：跟随行高，不额外投影 */
+.vp-doc .bbcode-image-inline {
+  display: inline-block;
+  max-height: 1.6em;
+  vertical-align: -0.35em;
+  box-shadow: none;
+}
+
+.bbcode-image-link:hover .bbcode-image-inline {
+  transform: none;
+  box-shadow: none;
+}
+
+/* 引用 / 警告框 / 列表内的块级图片收窄间距 */
+.vp-doc blockquote .bbcode-image-block,
+.vp-doc .bbcode-alert .bbcode-image-block,
+.vp-doc li .bbcode-image-block {
+  margin: 10px 0;
 }
 
 /* ============================================================

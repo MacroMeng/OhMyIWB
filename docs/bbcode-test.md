@@ -272,6 +272,62 @@ description: 复刻智教联盟论坛「帖子编辑指南」中的 BBCode 语�
 
 > 与论坛一致，`[list]` 仅支持无序列表（有序列表请使用 Markdown 原生 `1. 2.` 语法）。
 
+## 图片 `[upl-image-preview]`
+
+论坛上传图片后插入的是 `fof/upload` 扩展的图片预览标签，属于**自闭合**标签（没有 `[/upl-image-preview]`）：
+
+```text
+[upl-image-preview uuid=文件标识 url=原图地址 alt=替代文字 thumbnail_url=缩略图地址]
+```
+
+| 属性 | 说明 |
+| --- | --- |
+| `uuid` | 论坛文件标识，渲染为 `data-uuid`，本站不参与显示 |
+| `url` | 原图地址，作为外层链接的 `href`（点击查看原图） |
+| `alt` | 替代文字；论坛未填写时会留下 `{TEXT?}` 占位符，本站按空值处理 |
+| `thumbnail_url` | 缩略图地址，作为 `img` 的 `src`；缺省时回退为 `url` |
+| `width` / `height` | 可选，仅接受纯数字（像素），用于预留尺寸避免布局抖动 |
+
+标签**独占一行**时渲染为居中的块级图片：
+
+源码：
+
+```text
+[upl-image-preview uuid=1ba89464-1b04-4a9e-8f11-9b1449c442a1 url=https://forum.smart-teach.cn/assets/files/2026-08-30/1788086839-704023-image.png alt=示例截图]
+```
+
+效果：
+
+[upl-image-preview uuid=1ba89464-1b04-4a9e-8f11-9b1449c442a1 url=https://forum.smart-teach.cn/assets/files/2026-08-30/1788086839-704023-image.png alt=示例截图]
+
+夹在文字中间时按行内图片渲染，高度跟随行高：
+
+源码：
+
+```text
+这是一个行内图片 [upl-image-preview uuid=1ba89464-1b04-4a9e-8f11-9b1449c442a1 url=https://forum.smart-teach.cn/assets/files/2026-08-30/1788086839-704023-image.png alt=行内示例] 后面继续写文字。
+```
+
+效果：
+
+这是一个行内图片 [upl-image-preview uuid=1ba89464-1b04-4a9e-8f11-9b1449c442a1 url=https://forum.smart-teach.cn/assets/files/2026-08-30/1788086839-704023-image.png alt=行内示例] 后面继续写文字。
+
+也可以嵌在引用或警告框内：
+
+[AINFO]
+[upl-image-preview uuid=1ba89464-1b04-4a9e-8f11-9b1449c442a1 url=https://forum.smart-teach.cn/assets/files/2026-08-30/1788086839-704023-image.png alt=警告框内的图片]
+框内图片会自动收窄上下间距。
+[/AINFO]
+
+标签独占一行即成块，**无需**与上一行空行分隔：
+
+上一行是普通文字，紧接着就是图片。
+[upl-image-preview uuid=1ba89464-1b04-4a9e-8f11-9b1449c442a1 url=https://forum.smart-teach.cn/assets/files/2026-08-30/1788086839-704023-image.png alt=紧跟文字行的图片]
+
+::: tip 与 Markdown 原生图片的关系
+本站文章推荐直接使用 Markdown 的 `![替代文字](地址)`；`[upl-image-preview]` 的价值在于从论坛复制帖子内容时**无需手工改写**即可正确渲染。两者都会自动带上 `loading="lazy"`。
+:::
+
 ## 嵌入资源
 
 论坛支持虾米音乐、Niconico、ACFUN、网易云音乐、B 站等平台的嵌入。本站为 VitePress 静态站点，可直接使用原生 HTML（`iframe`）嵌入，例如 B 站：
@@ -286,7 +342,8 @@ description: 复刻智教联盟论坛「帖子编辑指南」中的 BBCode 语�
 
 - 行内 BBCode 需在**同一行**内闭合（`[b]加粗[/b]`），跨行的行内标签不会生效；
 - `[list]` 仅支持无序列表；
-- 同一标签不支持自嵌套（如 `[b]a[b]b[/b]c[/b]`），嵌套使用不同标签则没问题。
+- 同一标签不支持自嵌套（如 `[b]a[b]b[/b]c[/b]`），嵌套使用不同标签则没问题；
+- `[upl-image-preview]` 独占一行时渲染为块级图片（无需与上一行空行分隔），出现在文字中间时渲染为行内图片。
 
 ## LaTeX 数学公式
 
