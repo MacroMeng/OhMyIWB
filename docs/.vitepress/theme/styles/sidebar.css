@@ -1,0 +1,284 @@
+/* ------------------------------------------------------------
+   8. 侧边栏小工具
+   ------------------------------------------------------------ */
+.sidebar {
+  position: relative;
+}
+
+/* 桌面端侧边栏随页面滚动粘滞（Kratos 经典特性） */
+.sidebar.sticky-sidebar {
+  position: sticky;
+  top: 78px;
+  align-self: flex-start;
+}
+
+.sidebar .widget {
+  background: var(--kratos-card);
+  border-radius: var(--kratos-radius);
+  box-shadow: var(--kratos-shadow);
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.sidebar .widget .title {
+  position: relative;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--kratos-text);
+  margin-bottom: 16px;
+  padding-left: 12px;
+}
+
+.sidebar .widget .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--kratos-primary);
+}
+
+/* 个人简介 */
+.widget-about {
+  text-align: center;
+}
+
+.widget-about .avatar-wrap {
+  margin-bottom: 10px;
+}
+
+.widget-about .avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.widget-about .name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--kratos-text);
+}
+
+.widget-about .describe {
+  margin: 8px 0 14px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+}
+
+.widget-about .social {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.widget-about .social-link {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--kratos-bg-muted);
+  color: var(--kratos-text-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.widget-about .social-link:hover {
+  background: var(--kratos-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.widget-about .social-link .kicon {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* 标签聚合 */
+.widget-tags .tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.widget-tags .tag-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border: 1px solid var(--kratos-border);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--kratos-text-light);
+  transition: all 0.3s;
+}
+
+.widget-tags .tag-item:hover,
+.widget-tags .tag-item.active {
+  background: var(--kratos-primary);
+  border-color: var(--kratos-primary);
+  color: #ffffff;
+}
+
+.widget-tags .tag-count {
+  margin-left: 2px;
+  opacity: 0.7;
+}
+
+/* 文章聚合 */
+.widget-posts .post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.widget-posts .post-item + .post-item {
+  margin-top: 4px;
+  border-top: 1px dashed var(--kratos-border);
+  padding-top: 4px;
+}
+
+.widget-posts .post-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 2px;
+  color: var(--kratos-text);
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.widget-posts .post-link:hover {
+  color: var(--kratos-primary);
+}
+
+.widget-posts .post-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.widget-posts .post-date {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--kratos-text-light);
+}
+
+.widget-posts .post-date .kicon {
+  width: 12px;
+  height: 12px;
+  margin-right: 0;
+}
+
+/* 搜索 */
+.widget-search .search-box {
+  position: relative;
+}
+
+.widget-search .search-box .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--kratos-text-light);
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.widget-search .search-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid var(--kratos-border);
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--kratos-text);
+  background: var(--kratos-bg-soft);
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.widget-search .search-input:focus {
+  border-color: var(--kratos-primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.widget-search .search-results {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  border: 1px solid var(--kratos-border);
+  border-radius: var(--kratos-radius);
+  overflow: hidden;
+}
+
+.widget-search .search-results li a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: var(--kratos-text);
+}
+
+.widget-search .search-results li a:hover {
+  background: rgba(124, 58, 237, 0.06);
+  color: var(--kratos-primary);
+}
+
+.widget-search .search-results .result-tag {
+  font-size: 11px;
+  color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+.widget-search .search-empty {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+  text-align: center;
+}
+
+/* 文章目录 */
+.widget-toc .toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.widget-toc .toc-link {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+  border-left: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.widget-toc .toc-link:hover {
+  color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.widget-toc .toc-link.active {
+  color: var(--kratos-primary);
+  border-left-color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.08);
+}
+
+.widget-toc .toc-link.level-3 {
+  padding-left: 24px;
+}

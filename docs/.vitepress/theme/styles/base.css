@@ -1,0 +1,211 @@
+/* 尚古字体已改为在 <head> 中并行加载（config.mjs head 配置），
+   此处不再使用 @import（避免与本站样式串行下载） */
+
+/* ============================================================
+   Kratos for VitePress 主题样式
+   参考 Kratos WordPress 主题 (Seaton Jiang) 设计
+   ------------------------------------------------------------
+   1. 全局
+   2. 栅格与容器
+   3. 导航
+   4. Banner
+   5. 文章列表卡片
+   6. 文章正文
+   7. 分页
+   8. 侧边栏小工具
+   9. 页脚
+   10. 浮动工具箱
+   11. 404
+   12. 响应式
+   ============================================================ */
+
+:root {
+  --kratos-primary: #7c3aed;
+  --kratos-primary-hover: #6d28d9;
+  --kratos-dark: #21242b;
+  --kratos-bg: #ffffff;
+  --kratos-card: #ffffff;
+  --kratos-border: #e5e7eb;
+  --kratos-text: #333333;
+  --kratos-text-light: #999999;
+  --kratos-bg-soft: #f8f8fa;
+  --kratos-bg-muted: #f0f0f3;
+  --kratos-text-strong: #111111;
+  --kratos-code-inline: #6d28d9;
+  --kratos-radius: 6px;
+  --kratos-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  --kratos-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  /* 导航栏（亮色：浅色毛玻璃条 + 深色文字） */
+  --kratos-nav-bg: rgba(255, 255, 255, 0.72);
+  --kratos-nav-text: #21242b;
+  --kratos-nav-text-muted: rgba(33, 36, 43, 0.72);
+  --kratos-nav-line: #21242b;
+  --kratos-nav-border: rgba(33, 36, 43, 0.22);
+  --kratos-nav-input-bg: rgba(33, 36, 43, 0.06);
+  --kratos-nav-hover-bg: rgba(33, 36, 43, 0.08);
+  --kratos-nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* 正文/内容字体：尚古明体（加载失败时回退本地衬线字体） */
+  --kratos-font-serif: "Shanggu Serif VF", "Noto Serif SC", "Source Han Serif SC",
+    "Songti SC", SimSun, serif;
+  /* 标题字体：尚古黑体（加载失败时回退本地无衬线字体） */
+  --kratos-font-sans: "Shanggu Sans VF", "Noto Sans SC", "Source Han Sans SC",
+    "PingFang SC", "Microsoft Yahei", sans-serif;
+  --kratos-font: var(--kratos-font-serif);
+}
+
+/* 暗色模式（VitePress 在 <html> 上添加 .dark class） */
+html.dark {
+  color-scheme: dark;
+  --kratos-dark: #0e0e11;
+  --kratos-bg: #0b0b0e;
+  --kratos-card: #16161a;
+  --kratos-border: #2a2a31;
+  --kratos-text: #d4d8dd;
+  --kratos-text-light: #8b929a;
+  --kratos-bg-soft: #121216;
+  --kratos-bg-muted: #1d1d23;
+  --kratos-text-strong: #ffffff;
+  --kratos-code-inline: #c4b5fd;
+  --kratos-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  --kratos-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.55);
+  /* 导航栏（暗色：近黑毛玻璃条 + 白字） */
+  --kratos-nav-bg: rgba(11, 11, 14, 0.72);
+  --kratos-nav-text: #ffffff;
+  --kratos-nav-text-muted: rgba(255, 255, 255, 0.78);
+  --kratos-nav-line: #ffffff;
+  --kratos-nav-border: rgba(255, 255, 255, 0.3);
+  --kratos-nav-input-bg: rgba(255, 255, 255, 0.08);
+  --kratos-nav-hover-bg: rgba(255, 255, 255, 0.1);
+  --kratos-nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* ------------------------------------------------------------
+   1. 全局
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--kratos-bg);
+  color: var(--kratos-text);
+  font-weight: normal;
+  font-size: 16px;
+  font-family: var(--kratos-font);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 标题类字体：尚古黑体（标题、Banner、卡片、侧栏小部件、目录等） */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.banner .introduce .title,
+.article-head .article-title,
+.list-head .search-title,
+.post-list .masonry .a-post .title,
+.sidebar .widget .title,
+.widget-posts .post-title,
+.nav-toc-title,
+.drawer-title,
+.navbar-brand .brand-name {
+  font-family: var(--kratos-font-sans);
+}
+
+a {
+  color: var(--kratos-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--kratos-primary-hover);
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 16px;
+  color: var(--kratos-text);
+  font-size: 16px;
+}
+
+ul,
+ol {
+  padding-left: 1.25em;
+}
+
+.kratos-theme {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 图标基础 */
+.kicon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  vertical-align: -3px;
+}
+
+/* ------------------------------------------------------------
+   2. 栅格与容器
+   ------------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.row > [class^="col-"] {
+  position: relative;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-lg-8 {
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
+}
+
+.col-lg-4 {
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+}
+
+.text-center {
+  text-align: center;
+}

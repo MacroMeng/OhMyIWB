@@ -1,0 +1,23 @@
+/* ============================================================
+   14. Reading progress bar
+   ============================================================ */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  height: 3px;
+  pointer-events: none;
+  background: transparent;
+}
+
+.reading-progress-bar {
+  height: 100%;
+
+  width: 0;
+  background: linear-gradient(90deg, var(--kratos-primary), #a78bfa);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 6px rgba(124, 58, 237, 0.5);
+  transition: width 0.1s linear;
+}

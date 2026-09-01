@@ -1,0 +1,218 @@
+/* ------------------------------------------------------------
+   11. 404
+   ------------------------------------------------------------ */
+.kratos-404 {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.kratos-404 .code {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--kratos-primary);
+  line-height: 1;
+}
+
+.kratos-404 .text {
+  margin: 12px 0 24px;
+  color: var(--kratos-text-light);
+}
+
+.kratos-404 .btn-home {
+  display: inline-block;
+  padding: 10px 28px;
+  background: var(--kratos-primary);
+  color: #ffffff;
+  border-radius: 24px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.kratos-404 .btn-home:hover {
+  background: var(--kratos-primary-hover);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+  color: #ffffff;
+}
+
+/* ------------------------------------------------------------
+   12. 响应式
+   ------------------------------------------------------------ */
+@media (min-width: 992px) {
+  .d-none.d-lg-block {
+    display: block;
+  }
+
+  .d-md-none {
+    display: none;
+  }
+
+  /* 文章目录 widget 只在桌面端显示（移动端在顶栏） */
+  .widget-toc {
+    display: block;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .col-lg-8,
+  .col-lg-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  /* 移动端隐藏侧边栏目录，改由顶栏目录按钮提供 */
+  .widget-toc {
+    display: none;
+  }
+
+  .sidebar {
+    margin-top: 10px;
+  }
+
+  /* Mobile: sidebar moved into topbar drawer */
+  .col-lg-4.sidebar {
+    display: none;
+  }
+
+  /* Mobile: show topbar sidebar button */
+  .nav-widgets-toggler {
+    display: inline-flex;
+  }
+
+  /* 移动端取消粘滞，恢复普通流 */
+  .sidebar.sticky-sidebar {
+    position: relative;
+    top: auto;
+    align-self: auto;
+  }
+
+  .navbar-toggler {
+    display: block;
+  }
+
+  .navbar-nav {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--kratos-nav-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin: 0;
+    padding: 6px 0;
+  }
+
+  .navbar-nav.show {
+    display: flex;
+  }
+
+  .nav-item {
+    height: auto;
+    display: block;
+  }
+
+  .nav-link {
+    height: auto;
+    line-height: 1.6;
+    padding: 12px 20px;
+  }
+
+  .has-dropdown:hover .dropdown {
+    display: block;
+    position: static;
+    box-shadow: none;
+    background: var(--kratos-nav-hover-bg);
+    padding: 0;
+  }
+
+  .dropdown li a {
+    color: var(--kratos-nav-text-muted);
+  }
+
+  .dropdown li a:hover {
+    background: none;
+    color: var(--kratos-nav-text);
+  }
+
+  /* 仅首页顶部（Banner 模式）：深色 Banner 上白色毛玻璃看不清，下拉强制深色毛玻璃白字 */
+  .k-nav.banner-mode .navbar-nav {
+    background: rgba(11, 11, 14, 0.88);
+  }
+
+  /* 瀑布流：平板 2 列 */
+  .post-list .masonry {
+    columns: 2;
+    column-gap: 18px;
+  }
+
+  .post-list .masonry .article-panel {
+    margin-bottom: 18px;
+  }
+
+  /* 移动端顶栏：右侧按钮组整体靠右；汉堡菜单移到品牌左侧（基础样式 margin-left:0） */
+  .nav-search {
+    margin-left: auto;
+  }
+
+  .nav-search-toggler {
+    display: inline-flex;
+  }
+
+  .nav-search-input {
+    display: none;
+  }
+
+  .a-meta .meta-left {
+    margin-bottom: 6px;
+  }
+
+  /* 移动端显示文章目录按钮（顶栏） */
+  .nav-toc-toggler {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .banner .content {
+    height: 300px;
+  }
+
+  .banner .introduce .title {
+    font-size: 1.9rem;
+  }
+
+  .article-detail {
+    padding: 24px 20px;
+  }
+
+  .article-head {
+    padding: 22px 20px;
+  }
+
+  /* 瀑布流：手机单列 */
+  .post-list .masonry {
+    columns: 1;
+  }
+
+  /* 窄屏：侧栏 / 目录按钮只保留图标，隐藏文字与数字徽标避免 34px 圆钮溢出 */
+  .nav-widgets-toggler .widgets-text,
+  .nav-toc-toggler .toc-text,
+  .nav-toc-toggler .toc-count {
+    display: none;
+  }
+
+  .nav-widgets-toggler,
+  .nav-toc-toggler {
+    width: 34px;
+    height: 34px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .f-toolbox .search-panel {
+    width: 260px;
+  }
+}

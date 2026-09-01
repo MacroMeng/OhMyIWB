@@ -1,0 +1,154 @@
+/* ------------------------------------------------------------
+   9. 页脚
+   ------------------------------------------------------------ */
+.k-footer {
+  background: var(--kratos-dark);
+  padding: 40px 0 30px;
+  margin-top: 20px;
+}
+
+.k-footer p {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+.k-footer .social {
+  margin-bottom: 16px;
+}
+
+.k-footer .social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin: 0 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s;
+}
+
+.k-footer .social-icon:hover {
+  background: var(--kratos-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.k-footer .social-icon .kicon {
+  margin: 0;
+}
+
+.k-footer .copyright {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.k-footer a {
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.k-footer a:hover {
+  color: #ffffff;
+}
+
+/* ------------------------------------------------------------
+   10. 浮动工具箱
+   ------------------------------------------------------------ */
+.f-toolbox {
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.f-toolbox .tool {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--kratos-card);
+  color: var(--kratos-text-light);
+  box-shadow: var(--kratos-shadow-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.f-toolbox .tool:hover {
+  background: var(--kratos-primary);
+  color: #ffffff;
+}
+
+.f-toolbox .tool .kicon {
+  margin: 0;
+}
+
+.f-toolbox .gotop {
+  transition: opacity 0.3s, transform 0.3s, background 0.3s;
+}
+
+.f-toolbox .search-panel {
+  position: absolute;
+  right: 0;
+  bottom: 56px;
+  width: 300px;
+  background: var(--kratos-card);
+  border-radius: var(--kratos-radius);
+  box-shadow: var(--kratos-shadow-hover);
+  overflow: hidden;
+}
+
+.f-toolbox .search-panel-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--kratos-border);
+}
+
+.f-toolbox .search-panel-input .kicon {
+  color: var(--kratos-text-light);
+  margin: 0;
+}
+
+.f-toolbox .search-panel-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--kratos-text);
+}
+
+.f-toolbox .search-panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.f-toolbox .search-panel-list li a {
+  display: block;
+  padding: 9px 16px;
+  font-size: 13px;
+  color: var(--kratos-text);
+}
+
+.f-toolbox .search-panel-list li a:hover {
+  background: rgba(124, 58, 237, 0.06);
+  color: var(--kratos-primary);
+}
+
+.f-toolbox .search-panel-list li.no-result {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+  text-align: center;
+}

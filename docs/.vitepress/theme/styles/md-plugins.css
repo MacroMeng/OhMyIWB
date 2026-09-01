@@ -1,0 +1,495 @@
+/* ============================================================
+   Markdown 插件样式
+   ------------------------------------------------------------
+   1. 黑幕 spoiler（>!文字!<，md-spoiler 插件渲染）
+   2. Flarum BBCode（md-bbcode 插件渲染）
+   3. LaTeX 数学公式（markdown-it-mathjax3，构建期渲染为内联 SVG）
+   ============================================================ */
+
+/* ===== 黑幕（>!文字!<）：点击后才显示 ===== */
+.spoiler {
+  position: relative;
+  cursor: pointer;
+  padding: 0 2px;
+  border-radius: 4px;
+  background: var(--kratos-text);
+  color: transparent;
+  user-select: none;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+.spoiler:focus-visible {
+  outline: 2px solid var(--kratos-primary);
+  outline-offset: 2px;
+}
+.spoiler.clicked {
+  color: inherit;
+  background: transparent;
+  cursor: text;
+  user-select: text;
+}
+
+/* ============================================================
+   Flarum BBCode 语法样式（md-bbcode 插件渲染）
+   ------------------------------------------------------------
+   设计约定：
+   · 所有配色统一由单一强调色 --bb-accent 派生（color-mix），
+     因此预设主题与用户自定义颜色共用同一套视觉规则，
+     并且能自动适配亮色 / 暗色模式；
+   · 不使用 emoji，图标为插件内联的 Feather 线性 SVG，
+     描边跟随文字颜色。
+   ------------------------------------------------------------
+   1. 文本相关（居中 / 颜色 / 字号 / 删除线 / 链接）
+   2. 引用 [quote=作者]
+   3. 警告框（A / B / C / D 四系）
+   4. 网盘链接 [cloud]
+   5. 列表 [list]
+   ============================================================ */
+
+/* ---------- 1. 文本相关 ---------- */
+.bbcode-center {
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+.bbcode-strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--kratos-text-light);
+  opacity: 0.85;
+}
+
+.bbcode-size {
+  line-height: 1.4;
+  vertical-align: baseline;
+}
+
+.bbcode-email {
+  word-break: break-all;
+}
+
+/* ---------- 2. 引用 ---------- */
+/* 注意：article.css 的 `.vp-doc blockquote` 是元素限定选择器（0,1,1），
+   优先级高于单类名，因此这里必须带 .vp-doc 前缀才能覆盖。 */
+.vp-doc .bbcode-quote {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 16px 20px;
+  border: 1px solid var(--kratos-border);
+  border-left: 3px solid var(--kratos-primary);
+  border-radius: var(--kratos-radius);
+  background: var(--kratos-bg-soft);
+  color: var(--kratos-text);
+}
+
+.bbcode-quote-author {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  color: var(--kratos-primary);
+  font-family: var(--kratos-font-sans);
+  font-size: 0.86em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.bbcode-quote-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  opacity: 0.8;
+}
+
+/* 覆盖 `.vp-doc blockquote p` 的灰色正文（引用块内容应保持正常文本色） */
+.vp-doc .bbcode-quote-content p {
+  margin: 0 0 12px;
+  color: var(--kratos-text);
+}
+
+.bbcode-quote-content > :last-child {
+  margin-bottom: 0;
+}
+
+.bbcode-quote-content > :first-child {
+  margin-top: 0;
+}
+
+/* ---------- 3. 警告框 ---------- */
+.bbcode-alert {
+  /* --bb-accent：作者指定或预设的强调色（可由 inline style 覆盖）
+     --bb-color：实际参与配色的派生色，暗色模式下会被提亮 */
+  --bb-accent: #6b7280;
+  --bb-color: var(--bb-accent);
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  border: 1px solid color-mix(in srgb, var(--bb-color) 30%, transparent);
+  border-left: 3px solid var(--bb-color);
+  border-radius: var(--kratos-radius);
+  background: color-mix(in srgb, var(--bb-color) 7%, var(--kratos-card));
+  color: var(--kratos-text);
+  line-height: 1.75;
+}
+
+/* 标题行：图标 + 文字，颜色为强调色与正文色的混合（保证对比度） */
+.bbcode-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: color-mix(in srgb, var(--bb-color) 72%, var(--kratos-text-strong));
+  font-family: var(--kratos-font-sans);
+  font-size: 0.95em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.bbcode-alert-icon {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  color: var(--bb-color);
+}
+
+.bbcode-alert-label {
+  min-width: 0;
+}
+
+.bbcode-alert-body {
+  margin-top: 8px;
+}
+
+.bbcode-alert-body > :last-child {
+  margin-bottom: 0;
+}
+
+.bbcode-alert-body > :first-child {
+  margin-top: 0;
+}
+
+.bbcode-alert-body :is(p, ul, ol, blockquote, div[class*='language-']) {
+  margin-bottom: 10px;
+}
+
+/* 仅有标题（如 BCUSTOM）时不留多余间距 */
+.bbcode-alert-titleonly .bbcode-alert-title {
+  margin: 0;
+}
+
+/* 无标题时把图标与正文排在同一行 */
+.bbcode-alert-body > .bbcode-alert-icon {
+  float: left;
+  margin: 4px 8px 0 0;
+}
+
+/* B 系大写英文标题 */
+.bbcode-alert-big .bbcode-alert-title {
+  font-size: 0.88em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---- 预设主题（亮色）---- */
+.bbcode-alert-warning {
+  --bb-accent: #e8880c;
+}
+.bbcode-alert-success {
+  --bb-accent: #0f9d6e;
+}
+.bbcode-alert-error {
+  --bb-accent: #e0393e;
+}
+.bbcode-alert-info {
+  --bb-accent: #0b84d4;
+}
+.bbcode-alert-basic {
+  --bb-accent: #6b7280;
+}
+.bbcode-alert-custom {
+  --bb-accent: var(--kratos-primary);
+}
+
+/* ---- 预设主题（暗色：提亮以保证在深色底上的可读性）---- */
+html.dark .bbcode-alert-warning {
+  --bb-accent: #fbbf24;
+}
+html.dark .bbcode-alert-success {
+  --bb-accent: #34d399;
+}
+html.dark .bbcode-alert-error {
+  --bb-accent: #f87171;
+}
+html.dark .bbcode-alert-info {
+  --bb-accent: #38bdf8;
+}
+html.dark .bbcode-alert-basic {
+  --bb-accent: #9ca3af;
+}
+
+/* 自定义配色（inline style 传入 --bb-accent）：
+   暗色模式下与白色混合提亮，避免 green / red 等深色关键字在深底上发闷。
+   预设主题不走这条规则，因为它们在 html.dark 下已另给了浅色值。 */
+html.dark .bbcode-alert[style*='--bb-accent'] {
+  --bb-color: color-mix(in srgb, var(--bb-accent) 62%, #ffffff);
+}
+
+.bbcode-alert-body code {
+  background: color-mix(in srgb, var(--bb-color) 12%, var(--kratos-bg-muted));
+}
+
+/* 不支持 color-mix 的旧浏览器：退化为中性描边卡片 */
+@supports not (color: color-mix(in srgb, red, blue)) {
+  .bbcode-alert {
+    border-color: var(--kratos-border);
+    background: var(--kratos-bg-soft);
+  }
+  .bbcode-alert-title {
+    color: var(--bb-color);
+  }
+  .bbcode-alert-body code {
+    background: var(--kratos-bg-muted);
+  }
+}
+
+/* ---------- 4. 网盘链接 ---------- */
+.bbcode-cloud {
+  --bb-cloud-accent: var(--kratos-primary);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--kratos-border);
+  border-radius: var(--kratos-radius);
+  background: var(--kratos-card);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bbcode-cloud:hover {
+  border-color: color-mix(in srgb, var(--bb-cloud-accent) 45%, var(--kratos-border));
+  box-shadow: var(--kratos-shadow);
+}
+
+.bbcode-cloud-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bb-cloud-accent) 10%, var(--kratos-bg-soft));
+  color: var(--bb-cloud-accent);
+}
+
+.bbcode-cloud-svg {
+  width: 21px;
+  height: 21px;
+}
+
+.bbcode-cloud-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.bbcode-cloud-name {
+  color: var(--bb-cloud-accent);
+  font-family: var(--kratos-font-sans);
+  font-size: 0.74em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bbcode-cloud-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--kratos-text-strong);
+  font-family: var(--kratos-font-sans);
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.bbcode-cloud-pwd {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  color: var(--kratos-text-light);
+  font-size: 0.82em;
+  line-height: 1.4;
+}
+
+.bbcode-cloud-pwd-icon {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+}
+
+.bbcode-cloud-pwd code {
+  padding: 1px 7px;
+  border: 1px solid var(--kratos-border);
+  border-radius: 4px;
+  background: var(--kratos-bg-muted);
+  color: var(--kratos-code-inline);
+  font-size: 0.95em;
+  letter-spacing: 0.04em;
+  user-select: all;
+}
+
+.bbcode-cloud-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--bb-cloud-accent) !important;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--bb-cloud-accent) !important;
+  font-family: var(--kratos-font-sans);
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none !important;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.bbcode-cloud-btn:hover {
+  background: var(--bb-cloud-accent);
+  color: #ffffff !important;
+}
+
+.bbcode-cloud-btn-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+}
+
+/* 各网盘品牌色（仅用于图标与按钮描边，不做大面积填充） */
+.bbcode-cloud-lz { --bb-cloud-accent: #2196f3; }
+.bbcode-cloud-123 { --bb-cloud-accent: #ff6a00; }
+.bbcode-cloud-ali { --bb-cloud-accent: #ff6a00; }
+.bbcode-cloud-bd { --bb-cloud-accent: #2b5aed; }
+.bbcode-cloud-tx { --bb-cloud-accent: #12b7f5; }
+.bbcode-cloud-one { --bb-cloud-accent: #0364b8; }
+.bbcode-cloud-mega { --bb-cloud-accent: #d9272e; }
+.bbcode-cloud-dropbox { --bb-cloud-accent: #0061ff; }
+.bbcode-cloud-mediafire { --bb-cloud-accent: #1299f3; }
+.bbcode-cloud-google { --bb-cloud-accent: #1a73e8; }
+.bbcode-cloud-github { --bb-cloud-accent: #24292f; }
+.bbcode-cloud-gitee { --bb-cloud-accent: #c71d23; }
+.bbcode-cloud-360 { --bb-cloud-accent: #17a34a; }
+.bbcode-cloud-ty { --bb-cloud-accent: #d8322e; }
+.bbcode-cloud-ct { --bb-cloud-accent: #0f8de8; }
+
+/* GitHub 近黑品牌色在暗色模式下不可见，改用浅色 */
+html.dark .bbcode-cloud-github { --bb-cloud-accent: #c9d1d9; }
+html.dark .bbcode-cloud-btn:hover { color: var(--kratos-dark) !important; }
+
+/* 窄屏：按钮换行并撑满，避免标题被挤压 */
+@media (max-width: 520px) {
+  .bbcode-cloud {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .bbcode-cloud-btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@supports not (color: color-mix(in srgb, red, blue)) {
+  .bbcode-cloud-icon {
+    background: var(--kratos-bg-soft);
+  }
+  .bbcode-cloud:hover {
+    border-color: var(--bb-cloud-accent);
+  }
+}
+
+/* ---------- 5. 列表 ---------- */
+/* `.vp-doc ul` 带元素选择器（0,1,1），需同等或更高优先级才能改掉 padding */
+.vp-doc .bbcode-list {
+  margin: 0 0 20px;
+  padding-left: 1.4em;
+  list-style: none;
+}
+
+.bbcode-list li {
+  position: relative;
+  margin: 6px 0;
+}
+
+/* 用小圆点替代默认 marker，颜色与主题一致 */
+.bbcode-list li::before {
+  content: '';
+  position: absolute;
+  top: 0.65em;
+  left: -1em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--kratos-primary);
+}
+
+/* ============================================================
+   LaTeX 数学公式（markdown-it-mathjax3）
+   ------------------------------------------------------------
+   语法：行内 $...$，块级 $$...$$（独占若干行）
+   实现：构建期由 MathJax 3 渲染为内联 SVG（fontCache: 'none'），
+        字形使用 fill="currentColor"，因此颜色自动跟随正文，
+        亮色 / 暗色模式无需额外覆盖。
+   MathJax 自带的 <style> 已被 juice 内联到元素上，
+   这里只补充与本站排版相关的间距、滚动与可访问性样式。
+   ============================================================ */
+
+/* 行内公式：MathJax 已在元素上内联 direction / vertical-align，
+   这里只保证字形颜色跟随正文（亮 / 暗色自动适配） */
+.vp-doc mjx-container svg {
+  color: currentColor;
+}
+
+/* 块级公式：MathJax 内联样式已给出 display:block / text-align:center，
+   此处统一上下留白，并让超宽公式横向滚动而不是撑破正文容器。
+   注意不要给 svg 设 max-width，否则 SVG 会等比缩小而非滚动。 */
+.vp-doc mjx-container[display='true'] {
+  margin: 22px 0 !important;
+  padding: 4px 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 块级公式横向滚动条：与代码块一致的细滚动条 */
+.vp-doc mjx-container[display='true']::-webkit-scrollbar {
+  height: 6px;
+}
+
+.vp-doc mjx-container[display='true']::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: var(--kratos-border);
+}
+
+.vp-doc mjx-container[display='true']::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 块级公式可获得焦点（VitePress 注入 tabindex="0" 供键盘滚动） */
+.vp-doc mjx-container[display='true']:focus-visible {
+  outline: 2px solid var(--kratos-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* 公式出现在引用 / 警告框 / 列表中时不额外增高 */
+.vp-doc blockquote mjx-container[display='true'],
+.vp-doc .bbcode-alert mjx-container[display='true'],
+.vp-doc li mjx-container[display='true'] {
+  margin: 12px 0 !important;
+}
+
+

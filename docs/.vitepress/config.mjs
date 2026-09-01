@@ -4,6 +4,7 @@ import path from 'node:path'
 import markdownItTaskLists from 'markdown-it-task-lists'
 import markdownItFootnote from 'markdown-it-footnote'
 import { spoiler } from './lib/md-spoiler.mjs'
+import { bbcode } from './lib/md-bbcode.mjs'
 
 // 站点基本信息（RSS 生成与站点配置共用，避免两处维护）
 const SITE_TITLE = 'OhMyIWB'
@@ -219,6 +220,18 @@ function getPostsNav() {
     .map((d) => ({ text: readDirTitle(postsDir, d.name), link: `/posts/${d.name}/` }))
 }
 
+// ===== 开发环境判定 =====
+// vitepress build 在加载本配置文件之前就把 process.env.NODE_ENV 置为 'production'，
+// 而 vitepress dev 不会设置该变量，因此可据此区分两种运行模式。
+const IS_DEV = process.env.NODE_ENV !== 'production'
+
+// 仅开发环境出现在顶部导航的条目。
+// 注意：页面本身在生产构建中依然会生成，只是不暴露入口，
+// 部署后仍可直接访问 /bbcode-test。
+const DEV_ONLY_NAV = IS_DEV
+  ? [{ text: '语法测试', link: '/bbcode-test' }]
+  : []
+
 // Kratos for VitePress 站点配置
 // 主题专属配置统一放在 themeConfig.kratos 中
 export default defineConfig({
@@ -234,6 +247,23 @@ export default defineConfig({
       light: 'github-dark',
       dark: 'github-dark',
     },
+    // LaTeX 数学公式（行内 $...$ / 块级 $$...$$）
+    // VitePress 内置对接 markdown-it-mathjax3，构建期由 MathJax 渲染为内联 SVG，
+    // 因此前端零运行时开销、无需加载字体或脚本。
+    math: {
+      // 输出 SVG 时不使用字体缓存（fontCache: 'none'），
+      // 避免同页多个公式共享 <defs> 后被 SSR 拆分导致字形丢失
+      svg: { fontCache: 'none' },
+      tex: {
+        // 常用宏可在此集中定义，正文即可直接使用
+        macros: {
+          RR: '{\\mathbb{R}}',
+          NN: '{\\mathbb{N}}',
+          ZZ: '{\\mathbb{Z}}',
+          dd: '{\\mathrm{d}}',
+        },
+      },
+    },
     config(md) {
       // 启用 GFM 任务列表渲染（[x] / [ ]），enabled: true 使 checkbox 可交互
       md.use(markdownItTaskLists, { enabled: true })
@@ -241,6 +271,8 @@ export default defineConfig({
       md.use(markdownItFootnote)
       // 黑幕语法：>!文字!<（点击后才显示）
       md.use(spoiler)
+      // Flarum 论坛 BBCode 语法（参考 /d/27-tie-zi-bian-ji-zhi-nan）
+      md.use(bbcode)
       // 正文图片懒加载 + 异步解码（浏览器对视口内图片仍会立即加载，不影响首屏）
       const defaultImageRender = md.renderer.rules.image
       md.renderer.rules.image = (tokens, idx, opts, env, self) => {
@@ -340,6 +372,8 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '关于', link: '/about' },
+      // 语法测试页：仅 dev 模式显示入口，生产构建仍可通过 /bbcode-test 直接访问
+      ...DEV_ONLY_NAV,
       ...getPostsNav(),
     ],
 

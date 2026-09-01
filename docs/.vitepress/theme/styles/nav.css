@@ -1,0 +1,581 @@
+/* ------------------------------------------------------------
+   3. 导航
+   ------------------------------------------------------------ */
+.k-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  height: 60px;
+  background: var(--kratos-nav-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: var(--kratos-nav-shadow);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* Banner 模式下：透明叠加在 Banner 上，覆盖为白字白边（滚动后自动切回主题色） */
+.k-nav.banner-mode {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  --kratos-nav-text: #ffffff;
+  --kratos-nav-text-muted: rgba(255, 255, 255, 0.8);
+  --kratos-nav-line: #ffffff;
+  --kratos-nav-border: rgba(255, 255, 255, 0.35);
+  --kratos-nav-input-bg: rgba(255, 255, 255, 0.12);
+  --kratos-nav-hover-bg: rgba(255, 255, 255, 0.18);
+}
+
+.k-nav .nav-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: var(--kratos-nav-text);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-right: 1.5rem;
+}
+
+.navbar-brand:hover {
+  color: var(--kratos-nav-text);
+}
+
+.brand-logo {
+  height: 32px;
+  width: auto;
+}
+
+.navbar-toggler {
+  display: none;
+  margin-left: 0;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.navbar-toggler .line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 5px auto;
+  background: var(--kratos-nav-line);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0 0 0 auto;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  display: block;
+  padding: 0 14px;
+  height: 60px;
+  line-height: 60px;
+  color: var(--kratos-nav-text-muted);
+  font-size: 15px;
+  transition: color 0.3s, background 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--kratos-nav-text);
+  background: var(--kratos-nav-hover-bg);
+}
+
+.has-dropdown:hover .dropdown {
+  display: block;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  min-width: 160px;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  background: var(--kratos-card);
+  border-radius: var(--kratos-radius);
+  box-shadow: var(--kratos-shadow-hover);
+}
+
+.dropdown li a {
+  display: block;
+  padding: 8px 18px;
+  color: var(--kratos-text);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.dropdown li a:hover {
+  color: var(--kratos-primary);
+  background: var(--kratos-bg-muted);
+}
+
+/* 浅色 / 暗色模式切换按钮 */
+.nav-theme-toggler {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-left: 10px;
+  padding: 0;
+  border: 1px solid var(--kratos-nav-border);
+  border-radius: 50%;
+  background: none;
+  color: var(--kratos-nav-text-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* 跟随设备（自动模式）指示：右上角紫色圆点 */
+.nav-theme-toggler.theme-follow::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--kratos-primary);
+}
+
+.nav-theme-toggler:hover {
+  border-color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.18);
+  color: var(--kratos-nav-text);
+}
+
+.nav-theme-toggler .kicon {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.nav-theme-toggler:hover .kicon {
+  animation: kratos-spin 0.6s ease;
+}
+
+@keyframes kratos-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 顶栏搜索 */
+.nav-search {
+  position: relative;
+  margin-left: 14px;
+}
+
+/* 桌面端：搜索输入框 */
+.nav-search-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 200px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--kratos-nav-border);
+  border-radius: 20px;
+  background: var(--kratos-nav-input-bg);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.nav-search-input:focus-within {
+  border-color: var(--kratos-primary);
+  background: var(--kratos-nav-input-bg);
+}
+
+.nav-search-input .kicon {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  color: var(--kratos-nav-text-muted);
+  flex-shrink: 0;
+}
+
+.nav-search-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--kratos-nav-text);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.nav-search-input input::placeholder {
+  color: var(--kratos-nav-text-muted);
+}
+
+/* 移动端搜索按钮（默认隐藏，<=991.98px 时显示） */
+.nav-search-toggler {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-left: 10px;
+  padding: 0;
+  border: 1px solid var(--kratos-nav-border);
+  border-radius: 50%;
+  background: none;
+  color: var(--kratos-nav-text-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.nav-search-toggler:hover,
+.nav-search-toggler.open {
+  border-color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.18);
+  color: var(--kratos-nav-text);
+}
+
+.nav-search-toggler .kicon {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+/* 桌面端搜索下拉结果 */
+.nav-search-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 1040;
+  width: 280px;
+  padding: 6px 0;
+  background: var(--kratos-card);
+  border-radius: var(--kratos-radius);
+  box-shadow: var(--kratos-shadow-hover);
+  overflow: hidden;
+}
+
+.nav-search-panel .search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 16px;
+  font-size: 13px;
+  color: var(--kratos-text);
+  transition: all 0.25s;
+}
+
+.nav-search-panel .search-result:hover {
+  background: rgba(124, 58, 237, 0.06);
+  color: var(--kratos-primary);
+}
+
+.nav-search-panel .result-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-search-panel .result-tag {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+.nav-search-panel .search-empty {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+  text-align: center;
+}
+
+/* 移动端全屏搜索面板 */
+.nav-search-mobile-panel {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  z-index: 1060;
+  padding: 14px 16px 20px;
+  background: var(--kratos-bg);
+  border-radius: 0 0 var(--kratos-radius) var(--kratos-radius);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-search-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--kratos-card);
+  border: 1px solid var(--kratos-border);
+  border-radius: 22px;
+}
+
+.mobile-search-input .kicon {
+  color: var(--kratos-text-light);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.mobile-search-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--kratos-text);
+}
+
+.mobile-search-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--kratos-text-light);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.mobile-search-close:hover {
+  color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.08);
+}
+
+.mobile-search-close .kicon {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.mobile-search-results {
+  margin-top: 10px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--kratos-card);
+  border-radius: var(--kratos-radius);
+  box-shadow: var(--kratos-shadow);
+}
+
+.mobile-search-results .search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--kratos-text);
+  border-bottom: 1px solid var(--kratos-border);
+  transition: background 0.25s;
+}
+
+.mobile-search-results .search-result:last-child {
+  border-bottom: none;
+}
+
+.mobile-search-results .search-result:active {
+  background: rgba(124, 58, 237, 0.08);
+  color: var(--kratos-primary);
+}
+
+.mobile-search-results .result-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-search-results .result-tag {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+.mobile-search-results .search-empty {
+  padding: 18px 16px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+  text-align: center;
+}
+
+/* 搜索面板过渡动画 */
+.k-search-drop-enter-active,
+.k-search-drop-leave-active {
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.k-search-drop-enter-from,
+.k-search-drop-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.k-search-mobile-enter-active,
+.k-search-mobile-leave-active {
+  transition: opacity 0.22s, transform 0.22s;
+}
+
+.k-search-mobile-enter-from,
+.k-search-mobile-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 移动端：文章目录按钮（顶栏右侧） */
+.nav-toc-toggler {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  margin-left: 8px;
+  padding: 6px 12px;
+  background: none;
+  border: 1px solid var(--kratos-nav-border);
+  border-radius: 20px;
+  color: var(--kratos-nav-text);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.nav-toc-toggler .kicon {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+}
+
+.nav-toc-toggler .toc-count {
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--kratos-primary);
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.nav-toc-toggler:hover,
+.nav-toc-toggler.open {
+  border-color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.18);
+}
+
+/* 移动端：文章目录下拉面板 */
+.nav-toc-panel {
+  position: fixed;
+  top: 60px;
+  right: 12px;
+  z-index: 1040;
+  width: 280px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  background: var(--kratos-card);
+  border-radius: var(--kratos-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  padding: 14px 10px;
+}
+
+.nav-toc-panel .nav-toc-title {
+  padding: 0 10px 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--kratos-text);
+  border-bottom: 1px solid var(--kratos-border);
+  margin-bottom: 8px;
+}
+
+.nav-toc-panel .nav-toc-title::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 14px;
+  margin-right: 8px;
+  border-radius: 2px;
+  background: var(--kratos-primary);
+  vertical-align: -2px;
+}
+
+.nav-toc-panel .nav-toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-toc-panel .nav-toc-link {
+  display: block;
+  padding: 7px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--kratos-text-light);
+  border-left: 2px solid transparent;
+  transition: all 0.25s;
+}
+
+.nav-toc-panel .nav-toc-link:hover {
+  color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.06);
+}
+
+.nav-toc-panel .nav-toc-link.active {
+  color: var(--kratos-primary);
+  border-left-color: var(--kratos-primary);
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.nav-toc-panel .nav-toc-link.level-3 {
+  padding-left: 26px;
+}
+
+/* 目录面板过渡动画 */
+.k-toc-enter-active,
+.k-toc-leave-active {
+  transition: opacity 0.22s, transform 0.22s;
+}
+
+.k-toc-enter-from,
+.k-toc-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
