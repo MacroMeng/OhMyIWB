@@ -429,7 +429,7 @@ $$
 
 ### 预置宏
 
-在 `docs/.vitepress/config.mjs` 的 `markdown.math.tex.macros` 中集中定义，正文可直接使用：
+在 `docs/.vitepress/config.mjs` 的数学插件配置（`md.use(mathjax, { tex: { macros } })`）中集中定义，正文可直接使用：
 
 | 宏 | 展开 | 效果 |
 | --- | --- | --- |

@@ -5,14 +5,3 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 20
-  ignore:
-  # markdown-it-mathjax3 5.x 目前不可用（2026-09 核实，PR #4 因它构建失败）：
-  #   1. VitePress 把该包声明为「可选 peer 依赖」并锁死 ^4（1.6.4 与 2.0.0-alpha.20 均如此），
-  #      npm 会校验可选 peer 的版本区间，安装阶段直接 ERESOLVE，Cloudflare Pages 构建挂在 npm 步骤；
-  #   2. 5.x 的插件签名退化为 (md) 单参，不再接收 options，
-  #      config.mjs 中的 math.svg.fontCache: 'none' 与 tex.macros（RR/NN/ZZ/dd）会静默失效；
-  #   3. 5.x 每次渲染都会往正文插入 <span><style>，且输出不再以 <mjx-container 开头，
-  #      VitePress 注入 tabindex="0" 的 /^<mjx-container / 正则失配（块级公式丢失键盘可聚焦）。
-  # 该包对本站无任何安全公告，仅为版本跟进；待上游放宽 peer 区间并适配新 API 后再移除本规则。
-  - dependency-name: "markdown-it-mathjax3"
-    update-types: ["version-update:semver-major"]

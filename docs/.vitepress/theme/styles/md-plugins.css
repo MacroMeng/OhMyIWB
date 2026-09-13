@@ -3,7 +3,7 @@
    ------------------------------------------------------------
    1. 黑幕 spoiler（>!文字!<，md-spoiler 插件渲染）
    2. Flarum BBCode（md-bbcode 插件渲染）
-   3. LaTeX 数学公式（markdown-it-mathjax3，构建期渲染为内联 SVG）
+   3. LaTeX 数学公式（md-mathjax 插件渲染，构建期输出内联 SVG）
    ============================================================ */
 
 /* ===== 黑幕（>!文字!<）：点击后才显示 ===== */
@@ -500,10 +500,11 @@ html.dark .bbcode-cloud-btn:hover { color: var(--kratos-dark) !important; }
 }
 
 /* ============================================================
-   LaTeX 数学公式（markdown-it-mathjax3）
+   LaTeX 数学公式（md-mathjax 插件）
    ------------------------------------------------------------
    语法：行内 $...$，块级 $$...$$（独占若干行）
-   实现：构建期由 MathJax 3 渲染为内联 SVG（fontCache: 'none'），
+   实现：docs/.vitepress/lib/md-mathjax.mjs 在构建期用 MathJax 3 渲染为内联 SVG
+         （fontCache: 'none'），
         字形使用 fill="currentColor"，因此颜色自动跟随正文，
         亮色 / 暗色模式无需额外覆盖。
    MathJax 自带的 <style> 已被 juice 内联到元素上，
@@ -541,7 +542,7 @@ html.dark .bbcode-cloud-btn:hover { color: var(--kratos-dark) !important; }
   background: transparent;
 }
 
-/* 块级公式可获得焦点（VitePress 注入 tabindex="0" 供键盘滚动） */
+/* 块级公式可获得焦点（md-mathjax 插件注入 tabindex="0" 供键盘滚动） */
 .vp-doc mjx-container[display='true']:focus-visible {
   outline: 2px solid var(--kratos-primary);
   outline-offset: 3px;

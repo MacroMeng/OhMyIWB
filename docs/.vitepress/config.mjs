@@ -5,6 +5,7 @@ import markdownItTaskLists from 'markdown-it-task-lists'
 import markdownItFootnote from 'markdown-it-footnote'
 import { spoiler } from './lib/md-spoiler.mjs'
 import { bbcode } from './lib/md-bbcode.mjs'
+import { mathjax } from './lib/md-mathjax.mjs'
 
 // 站点基本信息（RSS 生成与站点配置共用，避免两处维护）
 const SITE_TITLE = 'OhMyIWB'
@@ -247,24 +248,26 @@ export default defineConfig({
       light: 'github-dark',
       dark: 'github-dark',
     },
-    // LaTeX 数学公式（行内 $...$ / 块级 $$...$$）
-    // VitePress 内置对接 markdown-it-mathjax3，构建期由 MathJax 渲染为内联 SVG，
-    // 因此前端零运行时开销、无需加载字体或脚本。
-    math: {
-      // 输出 SVG 时不使用字体缓存（fontCache: 'none'），
-      // 避免同页多个公式共享 <defs> 后被 SSR 拆分导致字形丢失
-      svg: { fontCache: 'none' },
-      tex: {
-        // 常用宏可在此集中定义，正文即可直接使用
-        macros: {
-          RR: '{\\mathbb{R}}',
-          NN: '{\\mathbb{N}}',
-          ZZ: '{\\mathbb{Z}}',
-          dd: '{\\mathrm{d}}',
-        },
-      },
-    },
+    // 不使用 VitePress 的 `math` 选项：它把渲染器硬编码为 markdown-it-mathjax3，
+    // 并把该包锁死在可选 peer 区间 ^4（1.6.4 / 2.0.0-alpha.20 均如此），
+    // 上游发布 5.x 后 `npm ci` 会在安装阶段直接 ERESOLVE（详见 lib/md-mathjax.mjs 顶部注释）。
+    // 因此改为注册仓库自带的插件，构建期仍由 MathJax 渲染为内联 SVG，前端零运行时开销。
     config(md) {
+      // LaTeX 数学公式（行内 $...$ / 块级 $$...$$）
+      md.use(mathjax, {
+        // 输出 SVG 时不使用字体缓存（fontCache: 'none'），
+        // 避免同页多个公式共享 <defs> 后被 SSR 拆分导致字形丢失
+        svg: { fontCache: 'none' },
+        tex: {
+          // 常用宏可在此集中定义，正文即可直接使用
+          macros: {
+            RR: '{\\mathbb{R}}',
+            NN: '{\\mathbb{N}}',
+            ZZ: '{\\mathbb{Z}}',
+            dd: '{\\mathrm{d}}',
+          },
+        },
+      })
       // 启用 GFM 任务列表渲染（[x] / [ ]），enabled: true 使 checkbox 可交互
       md.use(markdownItTaskLists, { enabled: true })
       // 启用脚注渲染（[^1]），文章中的参考资料脚注依赖此插件
@@ -283,6 +286,18 @@ export default defineConfig({
           ? defaultImageRender(tokens, idx, opts, env, self)
           : self.renderToken(tokens, idx, opts)
       }
+    },
+  },
+  // MathJax 输出的 <mjx-container>（以及 mjx-* 系列）必须声明为原生自定义元素，
+  // 否则 Vue 会把它当「未注册组件」解析，SSR 阶段渲染成空注释 <!---->，公式整体消失。
+  // VitePress 只在 markdown.math 为真时自动注入等价检查器（其内部实现：
+  //   if (markdown?.math) isCustomElement = tag => tag.startsWith('mjx-') || userChecker?.(tag) ?? false
+  // ），本站已改用自建插件，故在此显式提供同语义的检查器。
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => tag.startsWith('mjx-'),
+      },
     },
   },
   // 规避 Windows 中文路径下 realpathSync 规范化路径与 Rollup facadeModuleId 不一致导致的构建报错
