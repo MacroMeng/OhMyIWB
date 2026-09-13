@@ -13,7 +13,7 @@ let loadToken = 0
 let themeToken = 0
 
 // 主题文件版本号：public/giscus/*.css 改动后递增，避免老访客浏览器复用已缓存的旧主题
-const THEME_VERSION = '1'
+const THEME_VERSION = '2'
 
 // 当前主题名：与站点明暗同源（VitePress 把 .dark 挂在 <html> 上，isDark 随其响应式变化）
 const themeName = () => (isDark.value ? 'dark' : 'light')

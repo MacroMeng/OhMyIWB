@@ -5,8 +5,9 @@
  *   强调 = 紫 #7c3aed（--kratos-primary）、深紫 #6d28d9（--kratos-primary-hover）
  *   行内代码 = #6d28d9（--kratos-code-inline）
  *   语义色取自站点 BBCode 提示块（styles/md-plugins.css）：成功 #0f9d6e / 注意 #e8880c / 危险 #e0393e
- * 原则：强调色只落在「文字与细边框」上，绝不落在面（背景块）上；
- *       评论头部、页签、回复区、徽标一律不加彩色底，避免整块泛色。
+ * 原则：强调色只落在「文字与细边框」上（例外：主按钮与「展开更多」悬停沿用站点按钮的紫底）；
+ *       深度融合层：评论卡片换站点次级面 + 6px 圆角、UI 黑体 / 正文明体分层、
+ *       回复时间线细紫竖线（呼应引用块）、评论数升格小节标题、分页按钮复刻 .pagelist。
  * 注意：iframe 不继承父文档 CSS 变量，本文件不得引用 --kratos-*，需要时在此写死同源色值。
  */
 /* 与站点 <head> 同源：尚古明体 / 尚古黑体（config.mjs head 里的两个 result.css） */
@@ -199,7 +200,7 @@ main .markdown table tr:nth-child(2n) {
 }
 
 main .markdown table tr:nth-child(2n) td {
-  background: var(--color-canvas-subtle);
+  background: var(--color-neutral-muted);
 }
 
 main table th,
@@ -290,16 +291,25 @@ main .gsc-loading-image {
   background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
 }
 
-/* ---- 强调色只落在文字与细边框上：卡片、头部、页签一律用中性底 ---- */
+/* ---- 组件区：按站点设计语言重塑（卡片面 / 字体分层 / 站点式按钮） ---- */
 
-/* 评论卡片：不加彩色左竖线，保持 giscus 默认的中性 1px 边框 */
+/* 评论卡片：与站点 .article-panel 同语言 —— 6px 圆角 + 1px 描边 + 次级面底；
+   卡片本体是 .gsc-comment 的直接子级 div（giscus 用 tailwind 工具类拼装），
+   悬停转淡紫描边（与「作者评论」的高亮同一语言） */
+main .gsc-comment > div {
+  background-color: var(--color-canvas-subtle);
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
 
-/* 头部：中性细分隔线，不加底色 */
+main .gsc-comment > div:hover {
+  border-color: var(--color-accent-muted);
+}
+
+/* 作者行：站点卡片内部没有横线，去掉 giscus 默认的下边线，直接流进正文 */
 main .gsc-comment-header {
   padding-bottom: 0.35rem;
-  border-start-start-radius: 6px;
-  border-start-end-radius: 6px;
-  border-bottom: 1px solid var(--color-border-muted);
+  border-bottom: 0;
   background: transparent;
 }
 
@@ -323,8 +333,22 @@ main .gsc-reply-author .color-box-border-info {
   background: var(--color-canvas-subtle);
 }
 
-/* 计数：常态中性灰，悬停转链接紫 */
-main .gsc-comments-count a,
+/* 评论数：升格为小节标题 —— 黑体、加粗、正文色，配站点 h2 式下边线；
+   表情反应数保持弱化的中性灰 */
+main .gsc-comments-count {
+  font-size: 17px;
+}
+
+main .gsc-left-header {
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+main .gsc-comments-count a {
+  color: var(--color-fg-default);
+  font-weight: 600;
+}
+
 main .gsc-reactions-count a {
   color: var(--color-fg-muted);
 }
@@ -374,9 +398,9 @@ main .gsc-comment-box-markdown-hint {
   color: var(--color-fg-muted);
 }
 
-/* 回复区：中性时间线，仅「写回复」入口保留链接紫 */
+/* 回复时间线：细紫竖线 —— 与站点引用块的紫竖线同一设计语言（更细、降透明） */
 main .gsc-tl-line {
-  background-color: var(--color-border-default);
+  background-color: var(--color-accent-muted);
 }
 
 main .gsc-replies {
@@ -392,14 +416,21 @@ main .gsc-reply-box button {
   color: var(--color-accent-fg);
 }
 
-/* 「展开更多」按钮与加载文字：中性底 */
+/* 「展开更多」：复刻站点 .pagelist 按钮 —— 卡片底 + 浅投影，悬停整块转紫 */
 main .gsc-pagination-button {
-  border-color: var(--color-border-default);
-  background: var(--color-canvas-subtle);
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
 }
 
 main .gsc-pagination-button:hover:enabled {
-  border-color: var(--color-fg-muted);
+  border-color: var(--color-btn-primary-hover-border);
+  background-color: var(--color-btn-primary-hover-bg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+main .gsc-pagination-button:hover:enabled span {
+  color: var(--color-btn-primary-text);
 }
 
 main .gsc-loading-text {
@@ -409,4 +440,91 @@ main .gsc-loading-text {
 /* 正文细节：仅复选框保留一处小面积强调，其余走中性 */
 main .markdown input[type="checkbox"] {
   accent-color: var(--color-accent-emphasis);
+}
+
+/* ---- 深度融合层：字体分层 / 排版对齐 / 站点式交互 ---- */
+
+/* 字体分层（同站点「标题、导航、按钮用黑体；正文用明体」）：
+   UI 骨架 = 尚古黑体，评论正文与输入框 = 尚古明体 */
+main .gsc-header,
+main .gsc-left-header,
+main .gsc-right-header,
+main .gsc-comments-count,
+main .gsc-reactions-count,
+main .gsc-reactions,
+main .gsc-comment-header,
+main .gsc-comment-footer,
+main .gsc-comment-replies-count,
+main .gsc-reply-header,
+main .gsc-reply-footer,
+main .gsc-comment-box,
+main .gsc-reply-box,
+main .gsc-replies,
+main button,
+main .btn,
+main .gsc-pagination-button {
+  font-family: "Shanggu Sans VF", "Noto Sans SC", "Source Han Sans SC", "PingFang SC",
+    "Microsoft Yahei", sans-serif;
+}
+
+/* 评论正文：显式钉回明体（回复与预览的 .markdown 深嵌在黑体骨架里，不能跟着变黑体），
+   行距与段落、列表间距对齐文章页 .vp-doc */
+main .markdown {
+  font-family: "Shanggu Serif VF", "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  line-height: 1.9;
+}
+
+/* 输入框里写的是正文：保持明体 */
+main .form-control,
+main .gsc-comment-box-textarea {
+  font-family: "Shanggu Serif VF", "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+}
+
+main .markdown p {
+  margin-bottom: 18px;
+}
+
+main .markdown ul,
+main .markdown ol {
+  margin-bottom: 18px;
+  padding-left: 1.6em;
+}
+
+main .markdown blockquote p {
+  margin-bottom: 0;
+}
+
+/* 按钮与链接：站点同款 6px 圆角 + 0.3s 过渡 */
+main button,
+main .btn,
+main .gsc-pagination-button {
+  border-radius: 6px;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+main a {
+  transition: color 0.3s;
+}
+
+/* 表情回应：胶囊圆角（站点徽标式小胶囊） */
+main .gsc-social-reaction-summary-item,
+main .gsc-direct-reaction-button {
+  border-radius: 999px;
+}
+
+/* 评论框外框与页签：6px 圆角对齐站点卡片（giscus 默认 4px）；
+   textarea 与底部提示条的拼接处保持直角，由 giscus 自身几何负责 */
+main .gsc-comment-box:not(.gsc-comment-box-is-reply),
+main .gsc-comment-box-tabs {
+  border-radius: 6px 6px 0 0;
+}
+
+/* 输入聚焦：把 giscus 的 2px 实心紫环换成更柔的 3px 淡紫光晕 */
+main .gsc-comment-box-write:focus-within {
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+/* 文字选中：站点紫的一抹淡底 */
+main ::selection {
+  background: rgba(124, 58, 237, 0.18);
 }
