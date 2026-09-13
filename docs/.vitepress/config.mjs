@@ -328,7 +328,9 @@ export default defineConfig({
         emitMetadata: 0,
         inputPosition: 'top',
         lang: 'zh-CN',
-        // 主题不在此配置：组件根据站点明暗模式动态设置并同步 giscus
+        // 主题不在此配置：Giscus.vue 会按站点明暗自动选用下方主题文件并同步 giscus
+        //   docs/public/giscus/light.css（亮色）与 dark.css（暗色），配色对齐 styles/base.css
+        // 改动这两个 CSS 后，请把 Giscus.vue 里的 THEME_VERSION 加一，避免访客浏览器复用旧缓存
       },
       // 顶部导航栏品牌
       brand: {

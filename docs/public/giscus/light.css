@@ -1,0 +1,412 @@
+/*! giscus 主题 · 亮色 —— OhMyIWB
+ * 变量名沿用 giscus 官方主题（Primer）的命名，可直接用 data-theme 或 setConfig 指定。
+ * 调色板真源：docs/.vitepress/theme/styles/base.css 的 :root（Kratos for VitePress）
+ *   面 = 卡片白 #ffffff / 次级面 #f8f8fa / 更沉的面 #f0f0f3
+ *   强调 = 紫 #7c3aed（--kratos-primary）、深紫 #6d28d9（--kratos-primary-hover）
+ *   行内代码 = #6d28d9（--kratos-code-inline）
+ *   语义色取自站点 BBCode 提示块（styles/md-plugins.css）：成功 #0f9d6e / 注意 #e8880c / 危险 #e0393e
+ * 原则：强调色只落在「文字与细边框」上，绝不落在面（背景块）上；
+ *       评论头部、页签、回复区、徽标一律不加彩色底，避免整块泛色。
+ * 注意：iframe 不继承父文档 CSS 变量，本文件不得引用 --kratos-*，需要时在此写死同源色值。
+ */
+/* 与站点 <head> 同源：尚古明体 / 尚古黑体（config.mjs head 里的两个 result.css） */
+@import url("https://fontsapi.zeoseven.com/165/main/result.css");
+@import url("https://fontsapi.zeoseven.com/166/main/result.css");
+
+html {
+  color-scheme: light;
+}
+
+/* 变量同时挂到 main 和 body：giscus 应用层会根据主题 URL 猜明暗，
+   这里把底色 / 文字色钉死，避免它在系统深色下把文字渲染成浅色 */
+main,
+body {
+  color: var(--color-fg-default);
+  background: var(--color-canvas-default);
+
+  /* 代码高亮：站点代码块固定深底（#0d1117）配 shiki github-dark（config.mjs markdown.theme），
+     所以亮暗两套主题共用这一组深色语法色，才能与站点代码块完全一致 */
+  --color-prettylights-syntax-comment: #8b949e;
+  --color-prettylights-syntax-constant: #79c0ff;
+  --color-prettylights-syntax-entity: #d2a8ff;
+  --color-prettylights-syntax-storage-modifier-import: #c9d1d9;
+  --color-prettylights-syntax-entity-tag: #7ee787;
+  --color-prettylights-syntax-keyword: #ff7b72;
+  --color-prettylights-syntax-string: #a5d6ff;
+  --color-prettylights-syntax-variable: #ffa657;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #f85149;
+  --color-prettylights-syntax-invalid-illegal-text: #f0d0d0;
+  --color-prettylights-syntax-invalid-illegal-bg: #6e1821;
+  --color-prettylights-syntax-carriage-return-text: #f0d0d0;
+  --color-prettylights-syntax-carriage-return-bg: #8e1519;
+  --color-prettylights-syntax-string-regexp: #7ee787;
+  --color-prettylights-syntax-markup-list: #f2cc60;
+  --color-prettylights-syntax-markup-heading: #1f6feb;
+  --color-prettylights-syntax-markup-italic: #c9d1d9;
+  --color-prettylights-syntax-markup-bold: #c9d1d9;
+  --color-prettylights-syntax-markup-deleted-text: #ffdcd7;
+  --color-prettylights-syntax-markup-deleted-bg: #67060c;
+  --color-prettylights-syntax-markup-inserted-text: #aff5b4;
+  --color-prettylights-syntax-markup-inserted-bg: #033a16;
+  --color-prettylights-syntax-markup-changed-text: #ffdfb6;
+  --color-prettylights-syntax-markup-changed-bg: #5a1e02;
+  --color-prettylights-syntax-markup-ignored-text: #c9d1d9;
+  --color-prettylights-syntax-markup-ignored-bg: #1158c7;
+  --color-prettylights-syntax-meta-diff-range: #d2a8ff;
+  --color-prettylights-syntax-brackethighlighter-angle: #8b949e;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
+  --color-prettylights-syntax-constant-other-reference-link: #a5d6ff;
+
+  /* 按钮：中性白底 + 紫色主按钮（白字，对比度 5.7:1） */
+  --color-btn-text: #333333;
+  --color-btn-bg: #ffffff;
+  --color-btn-border: #e5e7eb;
+  --color-btn-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: #f8f8fa;
+  --color-btn-hover-border: #d1d5db;
+  --color-btn-active-bg: #f0f0f3;
+  --color-btn-active-border: #cbd0d6;
+  --color-btn-selected-bg: #f0f0f3;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #7c3aed;
+  --color-btn-primary-border: #7c3aed;
+  --color-btn-primary-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #6d28d9;
+  --color-btn-primary-hover-border: #6d28d9;
+  --color-btn-primary-selected-bg: #6d28d9;
+  --color-btn-primary-selected-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.15);
+  --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.8);
+  --color-btn-primary-disabled-bg: rgba(124, 58, 237, 0.5);
+  --color-btn-primary-disabled-border: transparent;
+
+  /* 列表项 / 分段控件：中性灰（值取自站点导航输入框的 rgba(33,36,43,.06) 同族） */
+  --color-action-list-item-default-hover-bg: rgba(51, 51, 51, 0.06);
+  --color-segmented-control-bg: rgba(51, 51, 51, 0.06);
+  --color-segmented-control-button-bg: #ffffff;
+  --color-segmented-control-button-selected-border: #d1d5db;
+
+  /* 文字：与站点 --kratos-text / --kratos-text-light 一致 */
+  --color-fg-default: #333333;
+  --color-fg-muted: #999999;
+  --color-fg-subtle: #b3b3b8;
+
+  /* 画布：与文章卡片面一致（卡片白 / 次级面 #f8f8fa / 更沉的面 #f0f0f3） */
+  --color-canvas-default: #ffffff;
+  --color-canvas-overlay: #ffffff;
+  --color-canvas-inset: #f0f0f3;
+  --color-canvas-subtle: #f8f8fa;
+  --color-border-default: #e5e7eb;
+  --color-border-muted: #eef0f3;
+  --color-neutral-muted: rgba(51, 51, 51, 0.08);
+
+  /* 强调色：站点链接紫；subtle 刻意走中性面，giscus 内部会拿它当整块底色用 */
+  --color-accent-fg: #7c3aed;
+  --color-accent-emphasis: #6d28d9;
+  --color-accent-muted: rgba(124, 58, 237, 0.4);
+  --color-accent-subtle: #f8f8fa;
+
+  /* 语义色：与站点 BBCode 提示块同源；subtle 只做极浅提示底 */
+  --color-success-fg: #0f9d6e;
+  --color-attention-fg: #e8880c;
+  --color-attention-muted: rgba(232, 136, 12, 0.4);
+  --color-attention-subtle: rgba(232, 136, 12, 0.12);
+  --color-danger-fg: #e0393e;
+  --color-danger-muted: rgba(224, 57, 62, 0.4);
+  --color-danger-subtle: rgba(224, 57, 62, 0.1);
+
+  --color-primer-shadow-inset: 0 1px 0 rgba(0, 0, 0, 0.04);
+  /* 悬停 / 已反应底色统一指回中性面，避免表情与列表整块泛紫泛蓝 */
+  --color-scale-gray-1: #f8f8fa;
+  --color-scale-gray-7: #f8f8fa;
+  --color-scale-blue-1: #f8f8fa;
+  --color-scale-blue-8: #f8f8fa;
+
+  /*! Extensions from @primer/css/alerts/flash.scss */
+  --color-social-reaction-bg-hover: var(--color-scale-gray-7);
+}
+
+/* ---- 与站点正文对齐的排版与元素样式 ----
+   注意：giscus 正文容器是 .markdown，它自带的 .markdown xxx 规则优先级更高（0,2,0 > main a 的 0,1,1），
+   所以内容类样式统一带上 main .markdown 前缀（或把两档都写上），否则会被 giscus 自身样式压掉 */
+
+main,
+body {
+  font-family: "Shanggu Serif VF", "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* 标题：站点标题用尚古黑体，h2 带 1px 实线下边线 */
+main .markdown h1,
+main .markdown h2,
+main .markdown h3,
+main .markdown h4,
+main .markdown h5,
+main .markdown h6 {
+  font-family: "Shanggu Sans VF", "Noto Sans SC", "Source Han Sans SC", "PingFang SC",
+    "Microsoft Yahei", sans-serif;
+  font-weight: 600;
+  color: var(--color-fg-default);
+}
+
+main .markdown h2 {
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+/* 链接：站点正文链接是「紫色 + 虚线下边线，悬停转实线」 */
+main a {
+  color: var(--color-accent-fg);
+  text-decoration: none;
+}
+
+main a:hover {
+  color: var(--color-accent-emphasis);
+}
+
+main .markdown a {
+  border-bottom: 1px dashed rgba(124, 58, 237, 0.5);
+}
+
+main .markdown a:hover {
+  border-bottom-style: solid;
+}
+
+/* 引用：4px 紫色左竖线 + 极浅紫底 + 右侧圆角，与站点一致 */
+main blockquote,
+main .markdown blockquote {
+  margin: 0 0 18px;
+  padding: 12px 20px;
+  border-left: 4px solid var(--color-accent-fg);
+  border-radius: 0 6px 6px 0;
+  color: var(--color-fg-default);
+  background: rgba(124, 58, 237, 0.06);
+}
+
+/* 表格：站点是「1px 中性边框 + 表头 #f0f0f3 + 偶数行 #f8f8fa」。
+   先干掉 giscus 自带的斑马纹底，再按站点口径重铺 */
+main .markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-border-default);
+  font-size: 15px;
+}
+
+main .markdown table tr:nth-child(2n) {
+  background-color: transparent;
+}
+
+main .markdown table tr:nth-child(2n) td {
+  background: var(--color-canvas-subtle);
+}
+
+main table th,
+main table td,
+main .markdown table th,
+main .markdown table td {
+  padding: 10px 14px;
+  border: 1px solid var(--color-border-default);
+  text-align: left;
+}
+
+main table th,
+main .markdown table th {
+  background: var(--color-canvas-inset);
+  font-weight: 600;
+}
+
+/* 行内代码：极浅紫底 + 深紫字，尺寸同站点（2px 6px / 4px 圆角 / 0.9em） */
+main code,
+main kbd,
+main samp,
+main tt,
+main .markdown code:not(pre > code),
+main .markdown kbd,
+main .markdown tt {
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #6d28d9;
+  background-color: rgba(124, 58, 237, 0.1);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+/* 代码块：与站点一致 —— 恒为深底（#0d1117）+ 6px 圆角 + 14px/1.7 等宽 */
+main pre,
+main .markdown pre,
+main .markdown .highlight pre {
+  padding: 16px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #0d1117;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+
+main pre code,
+main .markdown pre code {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #e6e6e6;
+  font-size: inherit;
+}
+
+/* 图片：站点统一 6px 圆角 */
+main .markdown img {
+  border-radius: 6px;
+}
+
+/* 分隔线：站点是 1px 实线 */
+main .markdown hr {
+  border: none;
+  border-top: 1px solid var(--color-border-default);
+  margin: 28px 0;
+}
+
+/* 滚动条：中性灰滑块 */
+main ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+main ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(51, 51, 51, 0.25);
+}
+
+/* 加载动画：沿用 giscus 官方亮色素材 */
+main .pagination-loader-container {
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line.svg");
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+}
+
+/* ---- 强调色只落在文字与细边框上：卡片、头部、页签一律用中性底 ---- */
+
+/* 评论卡片：不加彩色左竖线，保持 giscus 默认的中性 1px 边框 */
+
+/* 头部：中性细分隔线，不加底色 */
+main .gsc-comment-header {
+  padding-bottom: 0.35rem;
+  border-start-start-radius: 6px;
+  border-start-end-radius: 6px;
+  border-bottom: 1px solid var(--color-border-muted);
+  background: transparent;
+}
+
+/* 作者名：与正文同色加粗，悬停才转链接紫 */
+main .gsc-comment-author .link-primary,
+main .gsc-reply-author .link-primary {
+  color: var(--color-fg-default);
+  font-weight: 600;
+}
+
+main .gsc-comment-author .link-primary:hover,
+main .gsc-reply-author .link-primary:hover {
+  color: var(--color-accent-fg);
+}
+
+/* 作者身份徽标（Owner / Contributor）：中性描边，不做彩色填充 */
+main .gsc-comment-author .color-box-border-info,
+main .gsc-reply-author .color-box-border-info {
+  border-color: var(--color-border-default);
+  color: var(--color-fg-muted);
+  background: var(--color-canvas-subtle);
+}
+
+/* 计数：常态中性灰，悬停转链接紫 */
+main .gsc-comments-count a,
+main .gsc-reactions-count a {
+  color: var(--color-fg-muted);
+}
+
+main .gsc-comments-count a:hover,
+main .gsc-reactions-count a:hover {
+  color: var(--color-accent-fg);
+}
+
+main .gsc-comment-replies-count span,
+main .gsc-replies-count {
+  color: var(--color-fg-muted);
+}
+
+/* 排序分段控件：中性描边 + 选中项深色加粗 */
+main .gsc-right-header.BtnGroup,
+main .gsc-right-header.BtnGroup .btn {
+  border-color: var(--color-border-default);
+}
+
+main .gsc-right-header .BtnGroup-item--selected .btn {
+  color: var(--color-fg-default);
+  font-weight: 600;
+}
+
+/* 评论框：Write / Preview 页签走中性底，仅选中项用链接紫 */
+main .gsc-comment-box-tabs {
+  border-bottom-color: var(--color-border-default);
+  background: transparent;
+}
+
+main .gsc-comment-box-tabs button {
+  color: var(--color-fg-muted);
+}
+
+main .gsc-comment-box-tabs button.color-text-primary {
+  color: var(--color-accent-fg);
+  font-weight: 600;
+}
+
+main .gsc-comment-box-textarea-extras {
+  border-color: var(--color-border-default);
+  background: var(--color-canvas-subtle);
+}
+
+main .gsc-comment-box-markdown-hint {
+  color: var(--color-fg-muted);
+}
+
+/* 回复区：中性时间线，仅「写回复」入口保留链接紫 */
+main .gsc-tl-line {
+  background-color: var(--color-border-default);
+}
+
+main .gsc-replies {
+  border-top-color: var(--color-border-muted);
+}
+
+main .gsc-reply-box {
+  border-top: 1px dashed var(--color-border-default);
+  background: transparent;
+}
+
+main .gsc-reply-box button {
+  color: var(--color-accent-fg);
+}
+
+/* 「展开更多」按钮与加载文字：中性底 */
+main .gsc-pagination-button {
+  border-color: var(--color-border-default);
+  background: var(--color-canvas-subtle);
+}
+
+main .gsc-pagination-button:hover:enabled {
+  border-color: var(--color-fg-muted);
+}
+
+main .gsc-loading-text {
+  color: var(--color-fg-muted);
+}
+
+/* 正文细节：仅复选框保留一处小面积强调，其余走中性 */
+main .markdown input[type="checkbox"] {
+  accent-color: var(--color-accent-emphasis);
+}
