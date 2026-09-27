@@ -23,7 +23,7 @@
     "juice": "8.1.0",
     "markdown-it-footnote": "^4.0.0",
     "markdown-it-task-lists": "^2.1.1",
-    "mathjax-full": "3.2.1"
+    "mathjax-full": "3.2.2"
   },
   "overrides": {
     "vite": "6.4.3"
