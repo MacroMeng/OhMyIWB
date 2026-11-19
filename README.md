@@ -18,6 +18,10 @@ OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是
 
 - 在[智教联盟论坛](https://forum.smart-teach.cn)的[#1783](https://forum.smart-teach.cn/d/1783)中阅读并分享想法。
 
+- 加入我们的 QQ 群聊：
+  
+  <a href=https://qm.qq.com/cgi-bin/qm/qr?k=1101778139><img alt="Join QQ" src="https://img.shields.io/badge/QQ_%E7%BE%A4-1101778139-brightblue?style=for-the-badge"></a>
+
 ## 协同作者
 
 截至 README 更新日，@MacroMeng (STCN@MacrosMeng), @yizhilanzhu (STCN@yizhilanzhu) 与 @MKStoler1024/@MKStoler2048/@MKStoler4096 (STCN@MKStoler) 都为 OMI 做出了贡献。
