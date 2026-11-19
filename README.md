@@ -20,7 +20,7 @@ OhMyIWB 是一个扎根于社区的博客类项目。这里不定期（一般是
 
 - 加入我们的 QQ 群聊：
   
-  <a href=https://qm.qq.com/cgi-bin/qm/qr?k=1101778139><img alt="Join QQ" src="https://img.shields.io/badge/QQ_%E7%BE%A4-1101778139-brightblue?style=for-the-badge"></a>
+  <a href="https://qm.qq.com/cgi-bin/qm/qr?k=1101778139"><img alt="Join QQ" src="https://img.shields.io/badge/QQ_%E7%BE%A4-1101778139-brightblue?style=for-the-badge"></a>
 
 ## 协同作者
 
